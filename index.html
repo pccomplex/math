@@ -342,20 +342,33 @@ function generateQuestion() {
 
 function checkAnswer() {
     if (answered) return;
+    const inputEl = document.getElementById('answer-input');
+    if (!inputEl) return;
     answered = true;
-    const input = document.getElementById('answer-input').value.trim().replace(/\s/g,'');
+    const input = inputEl.value.trim().replace(/\s/g,'');
     const fb = document.getElementById('feedback');
     fb.classList.remove('hidden', 'correct', 'wrong');
     document.getElementById('btn-next').classList.remove('hidden');
 
     let isCorrect = false;
-    if (typeof currentAnswer === 'number') {
+    if (Array.isArray(currentAnswer)) {
+        isCorrect = currentAnswer.some(a => input === String(a));
+    } else if (typeof currentAnswer === 'number') {
+        // Try parsing as number first
         const userNum = parseFloat(input.replace(',','.'));
-        isCorrect = Math.abs(userNum - currentAnswer) < 0.01;
+        if (!isNaN(userNum)) {
+            isCorrect = Math.abs(userNum - currentAnswer) < 0.01;
+        }
+        // Also accept fraction format for whole numbers
+        if (!isCorrect && input === String(currentAnswer)) isCorrect = true;
     } else if (typeof currentAnswer === 'string') {
-        isCorrect = input.toLowerCase() === currentAnswer.toLowerCase();
-    } else if (Array.isArray(currentAnswer)) {
-        isCorrect = currentAnswer.some(a => input === String(a) || input === a);
+        // String comparison - normalize
+        const norm = s => s.replace(/\s/g,'').toLowerCase();
+        isCorrect = norm(input) === norm(currentAnswer);
+        // Also accept if user writes without slash spaces etc
+        if (!isCorrect) {
+            isCorrect = input === currentAnswer;
+        }
     }
 
     if (isCorrect) {
@@ -364,7 +377,8 @@ function checkAnswer() {
         score.correct++;
     } else {
         fb.classList.add('wrong');
-        fb.textContent = `❌ خطأ. الإجابة الصحيحة: ${currentAnswer}`;
+        const displayAnswer = Array.isArray(currentAnswer) ? currentAnswer[0] : currentAnswer;
+        fb.textContent = '❌ خطأ. الإجابة الصحيحة: ' + displayAnswer;
         score.wrong++;
     }
     updateScore();
@@ -434,31 +448,36 @@ function submitYesNo(val) {
 // ===== GENERATORS =====
 
 function genFractionsAdd() {
-    const diff = {easy:10, medium:15, hard:20}[currentLevel];
-    let a,b,c,d,answer;
+    let a,b,c,d;
     if (currentLevel === 'easy') {
-        d = [2,3,4,5,6,8,10][rand(0,6)];
+        d = [2,3,4,5,6,8][rand(0,5)];
         a = rand(1, d-1); c = rand(1, d-1);
         const op = rand(0,1) ? '+' : '-';
         if (op === '-' && a < c) [a,c] = [c,a];
         const num = op === '+' ? a+c : a-c;
-        const g = gcd(num, d);
-        answer = g === d ? String(num/g) : `${num/g}/${d/g}`;
-        showQ(`${a}/${d} ${op} ${c}/${d} = ?`, answer, 'المقامات متساوية');
+        const g = gcd(Math.abs(num), d);
+        const fn = num/g, fd = d/g;
+        const answer = fd === 1 ? String(fn) : `${fn}/${fd}`;
+        showQ(`${a}/${d} ${op} ${c}/${d} = ?`, answer, 'المقامات متساوية - اجمع/اطرح البسط فقط');
     } else {
         b = [2,3,4,5,6][rand(0,4)];
         d = [2,3,4,5,6][rand(0,4)];
-        if (b === d) d = b + 1;
+        while (d === b) d = [2,3,4,5,6][rand(0,4)];
         a = rand(1, b-1); c = rand(1, d-1);
         const op = rand(0,1) ? '+' : '-';
         const lcd = (b*d)/gcd(b,d);
         const num1 = a*(lcd/b); const num2 = c*(lcd/d);
         let resNum = op === '+' ? num1+num2 : num1-num2;
-        if (resNum < 0) { resNum = -resNum; }
+        if (op === '-' && resNum < 0) {
+            // swap to avoid negative
+            resNum = num2 - num1;
+            [a, b, c, d] = [c, d, a, b];
+        }
         const g = gcd(Math.abs(resNum), lcd);
         const fn = resNum/g; const fd = lcd/g;
-        answer = fd === 1 ? String(fn) : `${fn}/${fd}`;
-        showQ(`${a}/${b} ${op} ${c}/${d} = ?`, answer, 'أوجد المقام المشترك');
+        const answer = fd === 1 ? String(fn) : `${fn}/${fd}`;
+        const dispOp = op;
+        showQ(`${a}/${b} ${dispOp} ${c}/${d} = ?`, answer, 'أوجد المقام المشترك');
     }
 }
 
@@ -541,30 +560,32 @@ function genNegativeNums() {
     let a, b, answer, expr;
     if (currentLevel === 'easy') {
         a = rand(-10, 10); b = rand(-10, 10);
+        while (a === 0) a = rand(-10, 10);
+        while (b === 0) b = rand(-10, 10);
         const op = rand(0,1);
         if (op) { expr = `(${a}) + (${b})`; answer = a + b; }
         else { expr = `(${a}) - (${b})`; answer = a - b; }
     } else if (currentLevel === 'medium') {
-        a = rand(-8, 8); b = rand(-8, 8);
+        a = rand(-8, -1); b = rand(-8, 8);
+        while (b === 0) b = rand(-8, 8);
         expr = `(${a}) × (${b})`; answer = a * b;
     } else {
-        a = rand(-5, 5); b = rand(-5, 5); const c = rand(-5, 5);
-        expr = `(${a}) + (${b}) × (${c})`;
+        a = rand(-5, 5); b = rand(-5, -1); const c = rand(2, 5);
+        expr = `(${a}) + (${b}) × ${c}`;
         answer = a + b * c;
     }
     showQ(`${expr} = ?`, answer);
 }
 
 function genAlgebraicExpr() {
-    // Simplify: combine like terms
-    const a = rand(1,8), b = rand(1,8), c = rand(1,10);
+    const a = rand(1,8), b = rand(1,8);
     if (currentLevel === 'easy') {
         const answer = a + b;
-        showQ(`${a}x + ${b}x = ?x`, answer, 'كنّس الحدود المتشابهة');
+        showQ(`${a}x + ${b}x = ?<br>Coefficient of x = ?`, answer, 'كنّس الحدود المتشابهة');
     } else {
-        const d = rand(1,5);
+        const d = rand(1, Math.min(a+b-1, 5));
         const answer = a + b - d;
-        showQ(`${a}x + ${b}x - ${d}x = ?x`, answer, 'كنّس الحدود المتشابهة');
+        showQ(`${a}x + ${b}x - ${d}x = ?<br>Coefficient of x = ?`, answer, 'كنّس الحدود المتشابهة');
     }
 }
 
@@ -647,13 +668,13 @@ function genTriangleArea() {
 }
 
 function genCircle() {
-    const r = rand(2, 12);
+    const r = rand(2, 10);
     if (currentLevel === 'easy') {
         const answer = Math.round(2 * 3.14 * r * 100) / 100;
-        showQ(`دائرة نصف قطرها ${r}<br>المحيط = ? (π≈3.14)`, answer);
+        showQ(`Circle with radius = ${r}<br>Circumference = ? (use π = 3.14)`, answer, 'المحيط = 2 × π × r');
     } else {
         const answer = Math.round(3.14 * r * r * 100) / 100;
-        showQ(`دائرة نصف قطرها ${r}<br>المساحة = ? (π≈3.14)`, answer);
+        showQ(`Circle with radius = ${r}<br>Area = ? (use π = 3.14)`, answer, 'المساحة = π × r²');
     }
 }
 
@@ -706,9 +727,11 @@ function genSlopeTwoPoints() {
 }
 
 function genEquationsAdv() {
-    const answer = rand(-5, 8);
-    const a = rand(2, 5), b = rand(1, 8);
-    const c = rand(1, 4), d = a*answer + b - c*answer;
+    let answer = rand(-5, 8);
+    while (answer === 0) answer = rand(-5, 8);
+    const a = rand(2, 5), c = rand(1, a-1);
+    const b = rand(1, 8);
+    const d = a*answer + b - c*answer;
     showQ(`${a}x + ${b} = ${c}x + ${d}<br>x = ?`, answer, 'اجمع حدود x في طرف والأعداد في الطرف الآخر');
 }
 
@@ -758,12 +781,13 @@ function genFactoring() {
         const a = rand(2,8);
         const b = rand(1,6);
         // ax + ab = a(x+b)
-        showQ(`حلّل: ${a}x + ${a*b} = ${a}( ? )<br>ما داخل القوسين؟ (اكتب مثلاً: x+${b})`, `x+${b}`, 'أخرج العامل المشترك');
+        const answer = `x+${b}`;
+        showQ(`Factor: ${a}x + ${a*b} = ${a}(...)<br>What is inside the brackets?<br>Example format: x+${b}`, [answer, `x + ${b}`], 'أخرج العامل المشترك');
     } else {
         // (x+a)(x+b) = x² + (a+b)x + ab
         const a = rand(1,6), b = rand(1,6);
         const sum = a+b, prod = a*b;
-        showQ(`حلّل: x² + ${sum}x + ${prod}<br>= (x+?)(x+?)<br>اكتب العددين مفصولين بفاصلة`, [`${a},${b}`, `${b},${a}`]);
+        showQ(`Factor: x² + ${sum}x + ${prod}<br>= (x + ?)(x + ?)<br>Write the two numbers separated by comma`, [`${a},${b}`, `${b},${a}`], 'Find two numbers: sum=' + sum + ' product=' + prod);
     }
 }
 
@@ -797,13 +821,15 @@ function genDefault() {
 
 // coordinate system
 function genCoordinateSys() {
-    const x = rand(-5,5), y = rand(-5,5);
+    // Avoid points on axes
+    let x = 0, y = 0;
+    while (x === 0) x = rand(-5, 5);
+    while (y === 0) y = rand(-5, 5);
     let quadrant;
     if (x > 0 && y > 0) quadrant = 1;
     else if (x < 0 && y > 0) quadrant = 2;
     else if (x < 0 && y < 0) quadrant = 3;
-    else if (x > 0 && y < 0) quadrant = 4;
-    else quadrant = 0;
+    else quadrant = 4;
     showQ(`The point (${x}, ${y}) is in which quadrant?<br>(1 / 2 / 3 / 4)`, quadrant);
 }
 
