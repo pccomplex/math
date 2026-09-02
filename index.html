@@ -44,42 +44,63 @@
 <body>
 <div class="container">
     <style>
-        .q-card {
+        .q-item {
             background: #1a2c38;
-            border-radius: 15px;
-            padding: 25px;
-            margin: 15px 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 20px 22px;
+            margin: 14px 0;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+            border-right: 4px solid #00838f;
         }
-        .q-number { color: #64ffda; font-size: 15px; margin-bottom: 10px; }
+        .q-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .q-num {
+            background: #00838f;
+            color: white;
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+        .q-body { flex: 1; min-width: 200px; }
         .q-text {
-            font-size: 20px;
-            line-height: 1.8;
-            margin: 15px 0;
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 8px;
         }
         .q-math {
             direction: ltr;
             text-align: center;
             background: #0d1b24;
-            padding: 15px;
+            padding: 12px;
             border-radius: 8px;
-            margin: 15px 0;
-            font-size: 20px;
+            margin: 10px 0;
+            font-size: 19px;
             overflow-x: auto;
+        }
+        .btn-show {
+            background: #43a047; color: white;
+            font-size: 14px; padding: 8px 16px;
+            flex-shrink: 0;
         }
         .answer-box {
             background: #1b3a2a;
-            border: 2px solid #43a047;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 15px 0;
+            border: 1px solid #43a047;
+            border-radius: 8px;
+            padding: 14px;
+            margin-top: 12px;
             direction: ltr;
             text-align: center;
-            font-size: 20px;
+            font-size: 18px;
         }
-        .answer-label { color: #81c784; direction: rtl; text-align: right; font-size: 15px; margin-bottom: 8px; }
-        .nav-bar { display: flex; justify-content: space-between; align-items: center; margin: 15px 0; }
-        .q-counter { font-size: 16px; color: #90a4ae; }
+        .answer-label { color: #81c784; direction: rtl; text-align: right; font-size: 14px; margin-bottom: 6px; }
         footer {
             text-align: center;
             margin: 40px 0 20px;
@@ -126,29 +147,16 @@
         <div id="topics-list"></div>
     </div>
 
-    <!-- דף שאלה -->
+    <!-- דף שאלות הנושא -->
     <div id="page-question" class="hidden">
         <div class="header-bar">
             <button class="btn btn-back" onclick="backToTopics()">⬅ נושאים</button>
             <h2 id="topic-title"></h2>
         </div>
-        <div class="q-card">
-            <div class="nav-bar">
-                <button class="btn btn-nav" onclick="prevQ()">→ הקודם</button>
-                <span class="q-counter"><span id="q-idx">1</span> / <span id="q-total">1</span></span>
-                <button class="btn btn-nav" onclick="nextQ()">הבא ←</button>
-            </div>
-            <div class="q-number" id="q-source"></div>
-            <div class="q-text" id="q-text"></div>
-            <div class="q-math" id="q-math"></div>
-            <div style="text-align:center;">
-                <button class="btn btn-show" id="btn-show" onclick="toggleAnswer()">הצג תשובה 👁️</button>
-            </div>
-            <div class="answer-box hidden" id="answer-box">
-                <div class="answer-label">תשובה:</div>
-                <div id="answer-content"></div>
-            </div>
+        <div style="text-align:center; margin-bottom:10px;">
+            <button class="btn btn-nav" onclick="toggleAllAnswers()" id="btn-toggle-all">הצג את כל התשובות 👁️</button>
         </div>
+        <div id="questions-container"></div>
     </div>
 
     <footer>
@@ -165,50 +173,55 @@ const DB = {
             {
                 id: 'short', name: 'שאלות קצרות (חובה)',
                 questions: [
-                    { text: 'פתרו את המשוואה:', math: '2ˣ⁺¹ = 32', answer: 'x = 4' },
-                    { text: 'מצאו את תחום ההגדרה של הפונקציה:', math: 'f(x) = √(x − 3)', answer: 'x ≥ 3' },
-                    { text: 'פשטו את הביטוי:', math: 'log₂ 8 + log₃ 9', answer: '3 + 2 = 5' },
-                    { text: 'נתון משולש ישר-זווית שהיתר בו 10 וניצב אחד 6. מצאו את הניצב השני.', math: 'a² + 6² = 10²', answer: 'a = 8' },
-                    { text: 'מצאו את שיפוע הישר העובר דרך הנקודות (1, 2) ו-(4, 11).', math: 'm = (11 − 2)/(4 − 1)', answer: 'm = 3' },
+                    { text: 'פתרו את המשוואה:', math: '3²ˣ − 4·3ˣ + 3 = 0', answer: '3ˣ=1 או 3ˣ=3 → x=0 או x=1' },
+                    { text: 'מצאו את תחום ההגדרה של הפונקציה:', math: 'f(x) = √(x−2) / (x−5)', answer: 'x ≥ 2 וגם x ≠ 5' },
+                    { text: 'פתרו את אי-השוויון:', math: 'x² − 5x + 6 < 0', answer: '2 < x < 3' },
+                    { text: 'נתון log₂x + log₂(x−2) = 3. מצאו x.', math: 'log₂[x(x−2)] = 3', answer: 'x(x−2)=8 → x=4 (x>2)' },
+                    { text: 'מצאו את משוואת הישר העובר דרך (2,−1) ומאונך לישר y = 2x + 3.', math: 'm₁·m₂ = −1', answer: 'y = −½x' },
+                    { text: 'פשטו:', math: '(sin²x + cos²x) / cos x', answer: '1/cos x = sec x' },
                 ]
             },
             {
                 id: 'calculus', name: 'חדו"א - חקירת פונקציות ואינטגרלים',
                 questions: [
-                    { text: 'נתונה הפונקציה. מצאו את הנגזרת:', math: "f(x) = x³ − 3x² + 2", answer: "f'(x) = 3x² − 6x" },
-                    { text: 'מצאו את נקודות הקיצון של הפונקציה:', math: 'f(x) = x³ − 3x', answer: 'מקסימום (−1, 2), מינימום (1, −2)' },
-                    { text: 'חשבו את האינטגרל:', math: '∫ (3x² + 2x) dx', answer: 'x³ + x² + C' },
-                    { text: 'חשבו את השטח הכלוא בין הפונקציה f(x)=x² לציר ה-x בתחום מ-0 עד 3:', math: '∫₀³ x² dx', answer: '9' },
-                    { text: 'מצאו את משוואת המשיק לפונקציה f(x)=x² בנקודה שבה x=2:', math: "f'(x) = 2x, f'(2) = 4", answer: 'y = 4x − 4' },
-                    { text: 'נתונה הפונקציה. מצאו את תחומי העלייה:', math: 'f(x) = x² − 4x + 1', answer: 'עולה עבור x > 2' },
+                    { text: 'חקרו את הפונקציה ומצאו נקודות קיצון:', math: 'f(x) = x³ − 6x² + 9x', answer: "f'(x)=3x²−12x+9=0 → מקס' (1,4), מינ' (3,0)" },
+                    { text: 'מצאו את נקודת הפיתול של הפונקציה:', math: 'f(x) = x³ − 3x² + 2', answer: "f''(x)=6x−6=0 → נקודת פיתול ב-x=1, (1,0)" },
+                    { text: 'נתונה f(x) = (x²+1)/x. מצאו את הנגזרת:', math: "f(x) = x + 1/x", answer: "f'(x) = 1 − 1/x²" },
+                    { text: 'חשבו את השטח הכלוא בין הפרבולה f(x)=4−x² לציר ה-x:', math: '∫₋₂² (4−x²) dx', answer: '32/3' },
+                    { text: 'מצאו את משוואת המשיק לפונקציה f(x)=x³ בנקודה (1,1):', math: "f'(x)=3x², f'(1)=3", answer: 'y = 3x − 2' },
+                    { text: 'נתונה f(x)=√x. חשבו את השטח בין הפונקציה לציר x מ-0 עד 4:', math: '∫₀⁴ √x dx', answer: '16/3' },
+                    { text: 'מצאו את תחומי העלייה והירידה:', math: 'f(x) = x³ − 12x', answer: "f'=3x²−12: עולה |x|>2, יורדת −2<x<2" },
                 ]
             },
             {
                 id: 'sequences', name: 'סדרות ואינדוקציה',
                 questions: [
-                    { text: 'בסדרה חשבונית a₁=3, d=4. מצאו את האיבר ה-10.', math: 'aₙ = a₁ + (n−1)d', answer: 'a₁₀ = 3 + 9·4 = 39' },
-                    { text: 'מצאו את סכום 20 האיברים הראשונים של הסדרה החשבונית 2, 5, 8, ...', math: 'Sₙ = n/2 (2a₁ + (n−1)d)', answer: 'S₂₀ = 610' },
-                    { text: 'בסדרה הנדסית a₁=2, q=3. מצאו את האיבר ה-5.', math: 'aₙ = a₁·qⁿ⁻¹', answer: 'a₅ = 2·3⁴ = 162' },
-                    { text: 'מצאו את סכום הסדרה ההנדסית האינסופית: 8, 4, 2, 1, ...', math: 'S = a₁/(1−q), q=1/2', answer: 'S = 16' },
-                    { text: 'הוכיחו באינדוקציה כי סכום n המספרים הטבעיים הראשונים הוא:', math: '1+2+...+n = n(n+1)/2', answer: 'בדיקה n=1: 1=1 ✓, הנחה ל-n, הוכחה ל-n+1' },
+                    { text: 'בסדרה חשבונית a₃=7 ו-a₇=19. מצאו את a₁ ואת d.', math: 'a₇ − a₃ = 4d', answer: 'd=3, a₁=1' },
+                    { text: 'סכום n האיברים הראשונים בסדרה חשבונית הוא Sₙ=3n²+2n. מצאו את a₁.', math: 'a₁ = S₁', answer: 'a₁ = 5' },
+                    { text: 'בסדרה הנדסית a₂=6 ו-a₅=48. מצאו את המנה q.', math: 'a₅/a₂ = q³', answer: 'q³=8 → q=2' },
+                    { text: 'סכום סדרה הנדסית אינסופית הוא 12, והאיבר הראשון 8. מצאו q.', math: 'S = a₁/(1−q)', answer: '12=8/(1−q) → q=1/3' },
+                    { text: 'הוכיחו באינדוקציה:', math: '1²+2²+...+n² = n(n+1)(2n+1)/6', answer: 'בסיס n=1 ✓, הנחה, הוכחת צעד n→n+1' },
+                    { text: 'סדרה מוגדרת: aₙ = 2ⁿ − 1. הוכיחו שסכום n האיברים הוא 2ⁿ⁺¹ − n − 2.', math: 'Σ(2ᵏ−1)', answer: 'אינדוקציה או סכום הנדסי מינוס n' },
                 ]
             },
             {
                 id: 'geometry', name: 'גיאומטריה וטריגונומטריה במישור',
                 questions: [
-                    { text: 'במשולש ABC, הזווית A=50° והזווית B=60°. מצאו את הזווית C.', math: 'A + B + C = 180°', answer: 'C = 70°' },
-                    { text: 'שני משולשים דומים ביחס דמיון 1:3. שטח הקטן 5 סמ"ר. מצאו את שטח הגדול.', math: 'יחס שטחים = (יחס דמיון)²', answer: '5 · 9 = 45 סמ"ר' },
-                    { text: 'במעגל שרדיוסו 5, מצאו את אורך המיתר המרוחק 3 ממרכז המעגל.', math: 'חצי מיתר = √(5² − 3²)', answer: 'מיתר = 8' },
-                    { text: 'במשולש ישר-זווית זווית חדה 30° והיתר 12. מצאו את הניצב שמול הזווית.', math: 'sin 30° = a/12', answer: 'a = 6' },
+                    { text: 'במשולש ABC: AB=8, AC=6 והזווית A=60°. מצאו את BC (משפט הקוסינוסים).', math: 'BC² = 8²+6²−2·8·6·cos60°', answer: 'BC² = 52 → BC = 2√13' },
+                    { text: 'שני משולשים דומים ביחס 2:5. שטח הגדול 100 סמ"ר. מצאו שטח הקטן.', math: 'יחס שטחים = (2/5)²', answer: '100·4/25 = 16 סמ"ר' },
+                    { text: 'במעגל שרדיוסו 10, זווית מרכזית 60°. מצאו את אורך המיתר.', math: 'מיתר = 2r·sin(α/2)', answer: '2·10·sin30° = 10' },
+                    { text: 'במשולש ABC: זווית A=90°, AB=5, AC=12. מצאו את sin(B).', math: 'BC=13, sin B = AC/BC', answer: 'sin B = 12/13' },
+                    { text: 'משיק ומיתר: הזווית בין המשיק למיתר היא 40°. מצאו את הזווית ההיקפית שעל הקשת.', math: 'זווית משיק-מיתר = היקפית', answer: '40°' },
                 ]
             },
             {
                 id: 'probability', name: 'הסתברות',
                 questions: [
-                    { text: 'מטילים קובייה הוגנת. מה ההסתברות לקבל מספר זוגי?', math: 'P = 3/6', answer: '1/2' },
-                    { text: 'בכד 4 כדורים אדומים ו-6 כחולים. מוציאים כדור. מה ההסתברות שהוא אדום?', math: 'P = 4/10', answer: '2/5' },
-                    { text: 'הסתברות מותנית: P(A)=0.5, P(A∩B)=0.2. מצאו P(B|A).', math: 'P(B|A) = P(A∩B)/P(A)', answer: '0.4' },
-                    { text: 'ניסוי ברנולי: p=0.3, n=5. מה ההסתברות ל-2 הצלחות?', math: 'C(5,2)·0.3²·0.7³', answer: '≈ 0.3087' },
+                    { text: 'בכד 5 כדורים אדומים ו-3 לבנים. מוציאים 2 ללא החזרה. מה ההסתברות ששניהם אדומים?', math: '(5/8)·(4/7)', answer: '20/56 = 5/14' },
+                    { text: 'P(A)=0.6, P(B)=0.5, P(A∩B)=0.3. האם A ו-B בלתי תלויים?', math: 'P(A)·P(B) =? P(A∩B)', answer: '0.6·0.5=0.3 ✓ כן, בלתי תלויים' },
+                    { text: 'הסתברות מותנית: P(A)=0.4, P(B|A)=0.5. מצאו P(A∩B).', math: 'P(A∩B) = P(A)·P(B|A)', answer: '0.4·0.5 = 0.2' },
+                    { text: 'ניסוי ברנולי: זורקים מטבע 6 פעמים. מה ההסתברות לקבל בדיוק 4 "עץ"?', math: 'C(6,4)·(0.5)⁶', answer: '15/64 ≈ 0.234' },
+                    { text: 'בבחינה 3 שאלות אמריקאיות עם 4 תשובות. מנחשים. מה ההסתברות לצדוק בכולן?', math: '(1/4)³', answer: '1/64' },
                 ]
             },
         ]
@@ -219,42 +232,46 @@ const DB = {
             {
                 id: 'analytic', name: 'גיאומטריה אנליטית',
                 questions: [
-                    { text: 'מצאו את מרכז ורדיוס המעגל:', math: 'x² + y² − 6x + 4y − 12 = 0', answer: 'מרכז (3, −2), רדיוס 5' },
-                    { text: 'מצאו את משוואת המעגל שמרכזו (2, −1) ורדיוסו 4:', math: '(x−a)² + (y−b)² = r²', answer: '(x−2)² + (y+1)² = 16' },
-                    { text: 'נתונה הפרבולה y²=8x. מצאו את המוקד.', math: 'y² = 4px, 4p = 8', answer: 'מוקד (2, 0)' },
-                    { text: 'מצאו את מוקדי האליפסה:', math: 'x²/25 + y²/9 = 1', answer: 'c=√(25−9)=4, מוקדים (±4, 0)' },
-                    { text: 'מצאו את האסימפטוטות של ההיפרבולה:', math: 'x²/9 − y²/16 = 1', answer: 'y = ±(4/3)x' },
+                    { text: 'מצאו את מרכז ורדיוס המעגל:', math: 'x² + y² − 6x + 8y − 11 = 0', answer: 'מרכז (3, −4), רדיוס √36 = 6' },
+                    { text: 'מצאו את משוואת המשיק למעגל x²+y²=25 בנקודה (3,4):', math: 'המשיק מאונך לרדיוס', answer: '3x + 4y = 25' },
+                    { text: 'נתונה הפרבולה y² = 12x. מצאו את המוקד ואת המדריך.', math: 'y² = 4px, 4p = 12', answer: 'מוקד (3,0), מדריך x = −3' },
+                    { text: 'מצאו את מוקדי האליפסה ואת האקסצנטריות:', math: 'x²/25 + y²/16 = 1', answer: 'c=3, מוקדים (±3,0), e = 3/5' },
+                    { text: 'מצאו את האסימפטוטות והמוקדים של ההיפרבולה:', math: 'x²/9 − y²/16 = 1', answer: 'אסימפטוטות y=±(4/3)x, c=5, מוקדים (±5,0)' },
+                    { text: 'מצאו את נקודות החיתוך של הישר y=x+1 עם המעגל x²+y²=25:', math: 'הצבה x²+(x+1)²=25', answer: '(3,4) ו-(−4,−3)' },
                 ]
             },
             {
                 id: 'vectors', name: 'וקטורים וטריגונומטריה במרחב',
                 questions: [
-                    { text: 'נתונים הווקטורים u=(1,2,3) ו-v=(2,0,−1). מצאו u·v (מכפלה סקלרית).', math: 'u·v = 1·2 + 2·0 + 3·(−1)', answer: 'u·v = −1' },
-                    { text: 'מצאו את אורך הווקטור v=(3, 4, 12).', math: '|v| = √(3² + 4² + 12²)', answer: '|v| = 13' },
-                    { text: 'חשבו את נפח הכדור שרדיוסו 3.', math: 'V = (4/3)πr³', answer: 'V = 36π' },
-                    { text: 'חשבו את נפח הגליל שרדיוסו 2 וגובהו 5.', math: 'V = πr²h', answer: 'V = 20π' },
-                    { text: 'חשבו את נפח החרוט שרדיוסו 3 וגובהו 4.', math: 'V = (1/3)πr²h', answer: 'V = 12π' },
+                    { text: 'נתונים u=(1,2,2) ו-v=(2,−1,2). מצאו את הזווית ביניהם.', math: 'cosθ = (u·v)/(|u||v|)', answer: 'u·v=4, |u|=|v|=3 → cosθ=4/9' },
+                    { text: 'בדקו אם הווקטורים u=(1,2,3) ו-v=(2,4,6) מקבילים.', math: 'v = k·u ?', answer: 'v = 2u → כן, מקבילים' },
+                    { text: 'נתונה תיבה במידות 3×4×12. מצאו את אורך האלכסון הראשי.', math: 'd = √(3²+4²+12²)', answer: 'd = 13' },
+                    { text: 'חרוט שרדיוס בסיסו 6 וגובהו 8. מצאו את שטח המעטפת.', math: 'שיפוע l=√(r²+h²)=10, מעטפת=πrl', answer: '60π' },
+                    { text: 'כדור חסום בגליל (אותו רדיוס וגובה=קוטר). יחס הנפחים כדור:גליל?', math: 'V_כדור=(4/3)πr³, V_גליל=2πr³', answer: '2:3' },
+                    { text: 'מצאו וקטור יחידה בכיוון v=(3,0,4):', math: 'v/|v|, |v|=5', answer: '(3/5, 0, 4/5)' },
                 ]
             },
             {
                 id: 'complex', name: 'מספרים מרוכבים',
                 questions: [
-                    { text: 'חשבו: (2 + 3i) + (1 − i)', math: '(2+1) + (3−1)i', answer: '3 + 2i' },
-                    { text: 'חשבו את המכפלה: (1 + i)(2 − i)', math: '2 − i + 2i − i²', answer: '3 + i' },
-                    { text: 'מצאו את הערך המוחלט (מודול) של z = 3 + 4i.', math: '|z| = √(3² + 4²)', answer: '|z| = 5' },
-                    { text: 'לפי משפט דה-מואבר חשבו:', math: '(cos30° + i·sin30°)³', answer: 'cos90° + i·sin90° = i' },
-                    { text: 'פתרו את המשוואה:', math: 'z² = −9', answer: 'z = ±3i' },
+                    { text: 'חשבו וכתבו בצורה אלגברית:', math: '(3 + 2i)/(1 − i)', answer: 'הכפלה בצמוד: (1+5i)/2 = 0.5 + 2.5i' },
+                    { text: 'מצאו את הצורה הטריגונומטרית של z = 1 + i.', math: 'r=√2, θ=45°', answer: '√2(cos45° + i·sin45°)' },
+                    { text: 'לפי דה-מואבר חשבו:', math: '(1 + i)⁸', answer: '(√2)⁸·(cos360°+i sin360°) = 16' },
+                    { text: 'פתרו את המשוואה במרוכבים:', math: 'z² − 4z + 13 = 0', answer: 'z = 2 ± 3i' },
+                    { text: 'מצאו את כל השורשים:', math: 'z³ = 8', answer: 'z=2, z=−1±i√3' },
+                    { text: 'נתון |z|=5 ו-z על הציר המדומה החיובי. מצאו z.', math: 'z = 0 + bi, b>0', answer: 'z = 5i' },
                 ]
             },
             {
                 id: 'adv_calculus', name: 'חדו"א מתקדם (מעריכי ולוגריתמי)',
                 questions: [
-                    { text: 'מצאו את הנגזרת של הפונקציה:', math: 'f(x) = eˣ · x', answer: "f'(x) = eˣ(x + 1)" },
-                    { text: 'מצאו את הנגזרת של הפונקציה:', math: 'f(x) = ln(x² + 1)', answer: "f'(x) = 2x/(x² + 1)" },
-                    { text: 'חשבו את האינטגרל:', math: '∫ eˣ dx', answer: 'eˣ + C' },
-                    { text: 'בעיית גדילה: אוכלוסייה גדלה לפי N(t)=1000·e^(0.05t). כמה תהיה אחרי t=20?', math: 'N(20) = 1000·e¹', answer: '≈ 2718' },
-                    { text: 'מצאו את נקודת הקיצון של:', math: 'f(x) = xe⁻ˣ', answer: "f'(x)=e⁻ˣ(1−x)=0 → מקסימום ב-x=1" },
-                    { text: 'פתרו את המשוואה:', math: 'ln(x) = 2', answer: 'x = e² ≈ 7.39' },
+                    { text: 'מצאו את הנגזרת:', math: 'f(x) = x²·eˣ', answer: "f'(x) = eˣ(x² + 2x) = xeˣ(x+2)" },
+                    { text: 'מצאו את הנגזרת:', math: 'f(x) = ln(x)/x', answer: "f'(x) = (1 − ln x)/x²" },
+                    { text: 'חקרו את הפונקציה ומצאו קיצון:', math: 'f(x) = x·e⁻ˣ', answer: "f'=e⁻ˣ(1−x)=0 → מקסימום (1, 1/e)" },
+                    { text: 'חשבו את האינטגרל:', math: '∫ (1/x) dx', answer: 'ln|x| + C' },
+                    { text: 'בעיית דעיכה: חומר רדיואקטיבי N(t)=N₀·e⁻⁰·¹ᵗ. אחרי כמה זמן יישאר חצי?', math: '0.5 = e⁻⁰·¹ᵗ', answer: 't = ln2/0.1 ≈ 6.93' },
+                    { text: 'פתרו את המשוואה:', math: 'e²ˣ − 5eˣ + 6 = 0', answer: 'eˣ=2 או eˣ=3 → x=ln2 או x=ln3' },
+                    { text: 'מצאו את השטח בין f(x)=eˣ לציר x בתחום [0,1]:', math: '∫₀¹ eˣ dx', answer: 'e − 1 ≈ 1.718' },
                 ]
             },
         ]
@@ -290,50 +307,59 @@ function backToTopics() { showExam(currentExam); }
 
 function openTopic(idx) {
     currentTopic = DB[currentExam].topics[idx];
-    currentQIdx = 0;
     document.getElementById('topic-title').textContent = currentTopic.name;
-    document.getElementById('q-total').textContent = currentTopic.questions.length;
-    renderQuestion();
+    const container = document.getElementById('questions-container');
+    container.innerHTML = '';
+    currentTopic.questions.forEach((q, i) => {
+        const mathHtml = q.math ? `<div class="q-math">${q.math}</div>` : '';
+        container.innerHTML += `
+            <div class="q-item">
+                <div class="q-head">
+                    <div class="q-num">${i + 1}</div>
+                    <div class="q-body">
+                        <div class="q-text">${q.text}</div>
+                        ${mathHtml}
+                    </div>
+                    <button class="btn btn-show" id="btn-show-${i}" onclick="toggleAnswer(${i})">הצג תשובה 👁️</button>
+                </div>
+                <div class="answer-box hidden" id="answer-box-${i}">
+                    <div class="answer-label">תשובה:</div>
+                    <div>${q.answer}</div>
+                </div>
+            </div>`;
+    });
+    document.getElementById('btn-toggle-all').textContent = 'הצג את כל התשובות 👁️';
     showPage('page-question');
+    window.scrollTo(0, 0);
 }
 
-function renderQuestion() {
-    const q = currentTopic.questions[currentQIdx];
-    document.getElementById('q-idx').textContent = currentQIdx + 1;
-    document.getElementById('q-source').textContent = `שאלה ${currentQIdx + 1}`;
-    document.getElementById('q-text').textContent = q.text;
-    document.getElementById('q-math').innerHTML = q.math || '';
-    document.getElementById('q-math').style.display = q.math ? 'block' : 'none';
-    document.getElementById('answer-content').innerHTML = q.answer;
-    // hide answer by default
-    document.getElementById('answer-box').classList.add('hidden');
-    document.getElementById('btn-show').textContent = 'הצג תשובה 👁️';
-}
-
-function toggleAnswer() {
-    const box = document.getElementById('answer-box');
-    const btn = document.getElementById('btn-show');
+function toggleAnswer(i) {
+    const box = document.getElementById('answer-box-' + i);
+    const btn = document.getElementById('btn-show-' + i);
     if (box.classList.contains('hidden')) {
         box.classList.remove('hidden');
-        btn.textContent = 'הסתר תשובה 🙈';
+        btn.textContent = 'הסתר 🙈';
     } else {
         box.classList.add('hidden');
         btn.textContent = 'הצג תשובה 👁️';
     }
 }
 
-function nextQ() {
-    if (currentQIdx < currentTopic.questions.length - 1) {
-        currentQIdx++;
-        renderQuestion();
-    }
-}
-
-function prevQ() {
-    if (currentQIdx > 0) {
-        currentQIdx--;
-        renderQuestion();
-    }
+function toggleAllAnswers() {
+    const btn = document.getElementById('btn-toggle-all');
+    const showAll = btn.textContent.includes('הצג');
+    currentTopic.questions.forEach((q, i) => {
+        const box = document.getElementById('answer-box-' + i);
+        const sbtn = document.getElementById('btn-show-' + i);
+        if (showAll) {
+            box.classList.remove('hidden');
+            sbtn.textContent = 'הסתר 🙈';
+        } else {
+            box.classList.add('hidden');
+            sbtn.textContent = 'הצג תשובה 👁️';
+        }
+    });
+    btn.textContent = showAll ? 'הסתר את כל התשובות 🙈' : 'הצג את כל התשובות 👁️';
 }
 </script>
 </body>
