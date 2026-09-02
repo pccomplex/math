@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تمارين رياضيات - الصف السابع حتى التاسع</title>
+    <title>בגרות במתמטיקה 5 יח"ל - תרגול</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
             direction: rtl;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             color: #eee;
             min-height: 100vh;
         }
-        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-        h1 { text-align: center; font-size: 28px; margin: 20px 0; color: #4fc3f7; }
-        h2 { text-align: center; font-size: 22px; margin: 15px 0; color: #81d4fa; }
+        .container { max-width: 950px; margin: 0 auto; padding: 20px; }
+        h1 { text-align: center; font-size: 26px; margin: 15px 0 5px; color: #64ffda; }
+        .subtitle { text-align: center; color: #90a4ae; margin-bottom: 20px; font-size: 15px; }
+        h2 { text-align: center; font-size: 22px; margin: 15px 0; color: #80cbc4; }
         .btn {
             display: inline-block;
             padding: 12px 24px;
@@ -24,985 +25,315 @@
             border-radius: 8px;
             font-size: 16px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.25s;
             font-family: inherit;
         }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .btn-grade { background: #2196F3; color: white; font-size: 20px; padding: 20px 40px; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        .btn-exam { background: #00838f; color: white; font-size: 20px; padding: 22px 30px; width: 100%; margin: 10px 0; text-align: right; }
+        .btn-exam small { display: block; font-size: 14px; color: #b2dfdb; margin-top: 5px; font-weight: normal; }
         .btn-topic { background: #37474f; color: #e0e0e0; text-align: right; width: 100%; padding: 15px 20px; display: block; margin: 8px 0; border-radius: 10px; font-size: 16px; }
         .btn-topic:hover { background: #455a64; }
-        .btn-level { padding: 15px 30px; font-size: 18px; }
-        .btn-easy { background: #4caf50; color: white; }
-        .btn-medium { background: #ff9800; color: white; }
-        .btn-hard { background: #f44336; color: white; }
-        .btn-back { background: #607d8b; color: white; margin: 10px 0; }
-        .btn-check { background: #4caf50; color: white; font-size: 18px; padding: 12px 30px; }
-        .btn-next { background: #2196F3; color: white; font-size: 18px; padding: 12px 30px; }
-        .grade-section { text-align: center; margin: 30px 0; }
-        .topics-list { margin: 20px 0; }
-        .level-section { text-align: center; margin: 30px 0; }
-        .exercise-area {
-            background: #1e3a5f;
-            border-radius: 15px;
-            padding: 30px;
-            margin: 20px 0;
-            text-align: center;
-        }
-        .exercise-question {
-            font-size: 24px;
-            margin: 20px 0;
-            direction: ltr;
-            text-align: center;
-            color: #fff;
-        }
-        .exercise-input {
-            font-size: 22px;
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 2px solid #4fc3f7;
-            background: #0d2137;
-            color: #fff;
-            text-align: center;
-            width: 150px;
-            direction: ltr;
-        }
-        .exercise-input:focus { outline: none; border-color: #81d4fa; }
-        .feedback {
-            font-size: 20px;
-            margin: 15px 0;
-            padding: 10px;
-            border-radius: 8px;
-        }
-        .feedback.correct { background: #1b5e20; color: #a5d6a7; }
-        .feedback.wrong { background: #b71c1c; color: #ef9a9a; }
-        .score-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #263238;
-            padding: 10px 20px;
-            border-radius: 10px;
-            margin: 10px 0;
-        }
-        .score-bar span { font-size: 16px; }
+        .btn-topic .count { float: left; background: #00838f; padding: 2px 10px; border-radius: 12px; font-size: 13px; }
+        .btn-back { background: #546e7a; color: white; margin: 10px 0; }
+        .btn-show { background: #43a047; color: white; font-size: 17px; padding: 12px 28px; }
+        .btn-nav { background: #0288d1; color: white; font-size: 16px; padding: 10px 24px; }
+        .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
         .hidden { display: none; }
-        .topic-icon { margin-left: 10px; }
-        .header-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .hint-text {
-            font-size: 14px;
-            color: #90a4ae;
-            margin: 10px 0;
-            font-style: italic;
-            direction: rtl;
-        }
-        .btn-yn {
-            padding: 12px 30px;
-            font-size: 20px;
-            margin: 8px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: inherit;
-        }
-        .btn-yes { background: #4caf50; color: white; }
-        .btn-no { background: #f44336; color: white; }
-        .solution-steps {
-            text-align: right;
-            direction: rtl;
-            background: #0d2137;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-size: 16px;
-            line-height: 2;
-        }
     </style>
 </head>
 <body>
 <div class="container">
-    <!-- الصفحة الرئيسية -->
+    <style>
+        .q-card {
+            background: #1a2c38;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 15px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .q-number { color: #64ffda; font-size: 15px; margin-bottom: 10px; }
+        .q-text {
+            font-size: 20px;
+            line-height: 1.8;
+            margin: 15px 0;
+        }
+        .q-math {
+            direction: ltr;
+            text-align: center;
+            background: #0d1b24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 20px;
+            overflow-x: auto;
+        }
+        .answer-box {
+            background: #1b3a2a;
+            border: 2px solid #43a047;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            direction: ltr;
+            text-align: center;
+            font-size: 20px;
+        }
+        .answer-label { color: #81c784; direction: rtl; text-align: right; font-size: 15px; margin-bottom: 8px; }
+        .nav-bar { display: flex; justify-content: space-between; align-items: center; margin: 15px 0; }
+        .q-counter { font-size: 16px; color: #90a4ae; }
+        footer {
+            text-align: center;
+            margin: 40px 0 20px;
+            padding: 20px;
+            border-top: 1px solid #37474f;
+            color: #78909c;
+            font-size: 14px;
+        }
+        footer a { color: #64ffda; text-decoration: none; }
+        .level-tabs { text-align: center; margin: 15px 0; }
+        .level-tab {
+            padding: 8px 20px;
+            margin: 4px;
+            border: 1px solid #546e7a;
+            background: transparent;
+            color: #b0bec5;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 15px;
+        }
+        .level-tab.active { background: #00838f; color: white; border-color: #00838f; }
+        sub, sup { font-size: 0.7em; }
+    </style>
+
+    <!-- דף ראשי -->
     <div id="page-home">
-        <h1>📐 تمارين رياضيات</h1>
-        <h2>اختر الصف</h2>
-        <div class="grade-section">
-            <button class="btn btn-grade" onclick="showGrade(7)">الصف السابع</button>
-            <button class="btn btn-grade" onclick="showGrade(8)">الصف الثامن</button>
-            <button class="btn btn-grade" onclick="showGrade(9)">الصف التاسع</button>
-        </div>
+        <h1>📐 בגרות במתמטיקה 5 יחידות</h1>
+        <p class="subtitle">תרגול לפי מתכונת משרד החינוך</p>
+        <button class="btn btn-exam" onclick="showExam('35571')">
+            שאלון 35571 <small>כיתה י"א · חדו"א, סדרות, גיאומטריה, הסתברות</small>
+        </button>
+        <button class="btn btn-exam" onclick="showExam('35572')">
+            שאלון 35572 <small>כיתה י"ב · גיאומטריה אנליטית, וקטורים, מרוכבים, חדו"א מתקדם</small>
+        </button>
     </div>
 
-    <!-- صفحة المواضيع -->
+    <!-- דף נושאים -->
     <div id="page-topics" class="hidden">
         <div class="header-bar">
-            <button class="btn btn-back" onclick="goHome()">🏠 الرئيسية</button>
-            <h2 id="grade-title"></h2>
+            <button class="btn btn-back" onclick="goHome()">🏠 ראשי</button>
+            <h2 id="exam-title"></h2>
         </div>
-        <div id="topics-list" class="topics-list"></div>
+        <div id="topics-list"></div>
     </div>
 
-    <!-- صفحة اختيار المستوى -->
-    <div id="page-level" class="hidden">
+    <!-- דף שאלה -->
+    <div id="page-question" class="hidden">
         <div class="header-bar">
-            <button class="btn btn-back" onclick="showGrade(currentGrade)">⬅ رجوع</button>
+            <button class="btn btn-back" onclick="backToTopics()">⬅ נושאים</button>
             <h2 id="topic-title"></h2>
         </div>
-        <div class="level-section">
-            <p style="margin-bottom:20px;font-size:18px;">اختر مستوى الصعوبة:</p>
-            <button class="btn btn-level btn-easy" onclick="startExercise('easy')">سهل</button>
-            <button class="btn btn-level btn-medium" onclick="startExercise('medium')">متوسط</button>
-            <button class="btn btn-level btn-hard" onclick="startExercise('hard')">صعب</button>
+        <div class="q-card">
+            <div class="nav-bar">
+                <button class="btn btn-nav" onclick="prevQ()">→ הקודם</button>
+                <span class="q-counter"><span id="q-idx">1</span> / <span id="q-total">1</span></span>
+                <button class="btn btn-nav" onclick="nextQ()">הבא ←</button>
+            </div>
+            <div class="q-number" id="q-source"></div>
+            <div class="q-text" id="q-text"></div>
+            <div class="q-math" id="q-math"></div>
+            <div style="text-align:center;">
+                <button class="btn btn-show" id="btn-show" onclick="toggleAnswer()">הצג תשובה 👁️</button>
+            </div>
+            <div class="answer-box hidden" id="answer-box">
+                <div class="answer-label">תשובה:</div>
+                <div id="answer-content"></div>
+            </div>
         </div>
     </div>
 
-    <!-- صفحة التمارين -->
-    <div id="page-exercise" class="hidden">
-        <div class="header-bar">
-            <button class="btn btn-back" onclick="showLevel()">⬅ رجوع</button>
-            <h2 id="exercise-title"></h2>
-        </div>
-        <div class="score-bar">
-            <span>✅ صحيح: <span id="score-correct">0</span></span>
-            <span>❌ خطأ: <span id="score-wrong">0</span></span>
-            <span>📝 سؤال: <span id="score-current">1</span> / <span id="score-total">10</span></span>
-        </div>
-        <div class="exercise-area">
-            <div id="exercise-question" class="exercise-question"></div>
-            <div id="exercise-input-area" style="margin:20px 0;">
-                <input type="text" id="answer-input" class="exercise-input" onkeypress="if(event.key==='Enter')checkAnswer()" autocomplete="off">
-            </div>
-            <div id="exercise-hint" class="hint-text"></div>
-            <div style="margin:15px 0;">
-                <button class="btn btn-check" onclick="checkAnswer()">تحقق ✓</button>
-                <button class="btn btn-next hidden" id="btn-next" onclick="nextQuestion()">التالي ←</button>
-            </div>
-            <div id="feedback" class="feedback hidden"></div>
-            <div id="solution" class="solution-steps hidden"></div>
-        </div>
-    </div>
-
-    <!-- صفحة النتيجة -->
-    <div id="page-result" class="hidden">
-        <div class="exercise-area">
-            <h2>🏆 النتيجة</h2>
-            <p style="font-size:50px;margin:20px 0;" id="result-emoji"></p>
-            <p style="font-size:24px;" id="result-text"></p>
-            <p style="font-size:18px;margin:10px 0;color:#90a4ae;" id="result-detail"></p>
-            <button class="btn btn-check" onclick="startExercise(currentLevel)">أعد المحاولة 🔄</button>
-            <button class="btn btn-back" onclick="showGrade(currentGrade)">موضوع آخر</button>
-        </div>
-    </div>
+    <footer>
+        הוכן על ידי <strong>Ibraheem Jaffar</strong><br>
+        <a href="mailto:ibraheem.jaffar@protonmail.com">ibraheem.jaffar@protonmail.com</a>
+    </footer>
 </div>
 <script>
-// ===== DATA =====
-let currentGrade = 7;
-let currentTopic = '';
-let currentLevel = 'easy';
-let score = { correct: 0, wrong: 0, current: 0, total: 10 };
-let currentAnswer = 0;
-let answered = false;
-
-const topics = {
-    7: [
-        { id: 'fractions_add', name: 'جمع وطرح الكسور', icon: '➕' },
-        { id: 'fractions_mul', name: 'ضرب وقسمة الكسور', icon: '✖️' },
-        { id: 'order_of_ops', name: 'ترتيب العمليات الحسابية', icon: '🔢' },
-        { id: 'powers', name: 'القوى (الأسس)', icon: '²' },
-        { id: 'square_root', name: 'الجذر التربيعي', icon: '√' },
-        { id: 'negative_nums', name: 'الأعداد السالبة - العمليات', icon: '➖' },
-        { id: 'algebraic_expr', name: 'التعابير الجبرية والتبسيط', icon: '📝' },
-        { id: 'equations_basic', name: 'حل معادلات بسيطة', icon: '⚖️' },
-        { id: 'coordinate_sys', name: 'جهاز المحاور - تحديد النقاط', icon: '📍' },
-        { id: 'rectangle_area', name: 'محيط ومساحة المستطيل', icon: '▭' },
-        { id: 'box_volume', name: 'حجم ومساحة سطح الصندوق', icon: '📦' },
-        { id: 'angles', name: 'الزوايا - متجاورة وقودقودية', icon: '📐' },
-        { id: 'triangle_area', name: 'مساحة المثلث', icon: '△' },
-        { id: 'circle', name: 'محيط الدائرة ومساحتها', icon: '⭕' },
-    ],
-    8: [
-        { id: 'linear_func', name: 'الدالة الخطية y = mx + b', icon: '📈' },
-        { id: 'slope', name: 'الميل (الانحدار)', icon: '↗️' },
-        { id: 'point_on_line', name: 'هل النقطة على المستقيم؟', icon: '🎯' },
-        { id: 'slope_two_points', name: 'حساب الميل من نقطتين', icon: '📏' },
-        { id: 'equations_adv', name: 'معادلات - المتغير في الطرفين', icon: '⚖️' },
-        { id: 'word_problems', name: 'مسائل كلامية', icon: '📖' },
-        { id: 'power_rules', name: 'قوانين القوى', icon: '🔢' },
-        { id: 'pythagoras', name: 'نظرية فيثاغورس', icon: '📐' },
-        { id: 'parallelogram', name: 'مساحة متوازي الأضلاع والمعين', icon: '◇' },
-        { id: 'trapezoid', name: 'مساحة شبه المنحرف', icon: '⏢' },
-        { id: 'prism', name: 'المنشور - الحجم والمساحة', icon: '🔺' },
-        { id: 'probability', name: 'الاحتمالات', icon: '🎲' },
-    ],
-    9: [
-        { id: 'factoring', name: 'تحليل التعابير الجبرية', icon: '🧩' },
-        { id: 'quadratic_eq', name: 'المعادلة التربيعية', icon: '📊' },
-        { id: 'systems_eq', name: 'جملة معادلتين', icon: '🔗' },
-        { id: 'inequalities', name: 'متراجحات (متباينات)', icon: '≤' },
-        { id: 'parabola', name: 'القطع المكافئ (الباربولا)', icon: '🎢' },
-        { id: 'similarity', name: 'التشابه', icon: '🔍' },
-        { id: 'trigonometry', name: 'مثلثات قائمة الزاوية - sin cos tan', icon: '📐' },
-        { id: 'statistics', name: 'الإحصاء', icon: '📊' },
-    ]
+// ===== מאגר שאלות =====
+const DB = {
+    '35571': {
+        name: 'שאלון 35571 (י"א)',
+        topics: [
+            {
+                id: 'short', name: 'שאלות קצרות (חובה)',
+                questions: [
+                    { text: 'פתרו את המשוואה:', math: '2ˣ⁺¹ = 32', answer: 'x = 4' },
+                    { text: 'מצאו את תחום ההגדרה של הפונקציה:', math: 'f(x) = √(x − 3)', answer: 'x ≥ 3' },
+                    { text: 'פשטו את הביטוי:', math: 'log₂ 8 + log₃ 9', answer: '3 + 2 = 5' },
+                    { text: 'נתון משולש ישר-זווית שהיתר בו 10 וניצב אחד 6. מצאו את הניצב השני.', math: 'a² + 6² = 10²', answer: 'a = 8' },
+                    { text: 'מצאו את שיפוע הישר העובר דרך הנקודות (1, 2) ו-(4, 11).', math: 'm = (11 − 2)/(4 − 1)', answer: 'm = 3' },
+                ]
+            },
+            {
+                id: 'calculus', name: 'חדו"א - חקירת פונקציות ואינטגרלים',
+                questions: [
+                    { text: 'נתונה הפונקציה. מצאו את הנגזרת:', math: "f(x) = x³ − 3x² + 2", answer: "f'(x) = 3x² − 6x" },
+                    { text: 'מצאו את נקודות הקיצון של הפונקציה:', math: 'f(x) = x³ − 3x', answer: 'מקסימום (−1, 2), מינימום (1, −2)' },
+                    { text: 'חשבו את האינטגרל:', math: '∫ (3x² + 2x) dx', answer: 'x³ + x² + C' },
+                    { text: 'חשבו את השטח הכלוא בין הפונקציה f(x)=x² לציר ה-x בתחום מ-0 עד 3:', math: '∫₀³ x² dx', answer: '9' },
+                    { text: 'מצאו את משוואת המשיק לפונקציה f(x)=x² בנקודה שבה x=2:', math: "f'(x) = 2x, f'(2) = 4", answer: 'y = 4x − 4' },
+                    { text: 'נתונה הפונקציה. מצאו את תחומי העלייה:', math: 'f(x) = x² − 4x + 1', answer: 'עולה עבור x > 2' },
+                ]
+            },
+            {
+                id: 'sequences', name: 'סדרות ואינדוקציה',
+                questions: [
+                    { text: 'בסדרה חשבונית a₁=3, d=4. מצאו את האיבר ה-10.', math: 'aₙ = a₁ + (n−1)d', answer: 'a₁₀ = 3 + 9·4 = 39' },
+                    { text: 'מצאו את סכום 20 האיברים הראשונים של הסדרה החשבונית 2, 5, 8, ...', math: 'Sₙ = n/2 (2a₁ + (n−1)d)', answer: 'S₂₀ = 610' },
+                    { text: 'בסדרה הנדסית a₁=2, q=3. מצאו את האיבר ה-5.', math: 'aₙ = a₁·qⁿ⁻¹', answer: 'a₅ = 2·3⁴ = 162' },
+                    { text: 'מצאו את סכום הסדרה ההנדסית האינסופית: 8, 4, 2, 1, ...', math: 'S = a₁/(1−q), q=1/2', answer: 'S = 16' },
+                    { text: 'הוכיחו באינדוקציה כי סכום n המספרים הטבעיים הראשונים הוא:', math: '1+2+...+n = n(n+1)/2', answer: 'בדיקה n=1: 1=1 ✓, הנחה ל-n, הוכחה ל-n+1' },
+                ]
+            },
+            {
+                id: 'geometry', name: 'גיאומטריה וטריגונומטריה במישור',
+                questions: [
+                    { text: 'במשולש ABC, הזווית A=50° והזווית B=60°. מצאו את הזווית C.', math: 'A + B + C = 180°', answer: 'C = 70°' },
+                    { text: 'שני משולשים דומים ביחס דמיון 1:3. שטח הקטן 5 סמ"ר. מצאו את שטח הגדול.', math: 'יחס שטחים = (יחס דמיון)²', answer: '5 · 9 = 45 סמ"ר' },
+                    { text: 'במעגל שרדיוסו 5, מצאו את אורך המיתר המרוחק 3 ממרכז המעגל.', math: 'חצי מיתר = √(5² − 3²)', answer: 'מיתר = 8' },
+                    { text: 'במשולש ישר-זווית זווית חדה 30° והיתר 12. מצאו את הניצב שמול הזווית.', math: 'sin 30° = a/12', answer: 'a = 6' },
+                ]
+            },
+            {
+                id: 'probability', name: 'הסתברות',
+                questions: [
+                    { text: 'מטילים קובייה הוגנת. מה ההסתברות לקבל מספר זוגי?', math: 'P = 3/6', answer: '1/2' },
+                    { text: 'בכד 4 כדורים אדומים ו-6 כחולים. מוציאים כדור. מה ההסתברות שהוא אדום?', math: 'P = 4/10', answer: '2/5' },
+                    { text: 'הסתברות מותנית: P(A)=0.5, P(A∩B)=0.2. מצאו P(B|A).', math: 'P(B|A) = P(A∩B)/P(A)', answer: '0.4' },
+                    { text: 'ניסוי ברנולי: p=0.3, n=5. מה ההסתברות ל-2 הצלחות?', math: 'C(5,2)·0.3²·0.7³', answer: '≈ 0.3087' },
+                ]
+            },
+        ]
+    },
+    '35572': {
+        name: 'שאלון 35572 (י"ב)',
+        topics: [
+            {
+                id: 'analytic', name: 'גיאומטריה אנליטית',
+                questions: [
+                    { text: 'מצאו את מרכז ורדיוס המעגל:', math: 'x² + y² − 6x + 4y − 12 = 0', answer: 'מרכז (3, −2), רדיוס 5' },
+                    { text: 'מצאו את משוואת המעגל שמרכזו (2, −1) ורדיוסו 4:', math: '(x−a)² + (y−b)² = r²', answer: '(x−2)² + (y+1)² = 16' },
+                    { text: 'נתונה הפרבולה y²=8x. מצאו את המוקד.', math: 'y² = 4px, 4p = 8', answer: 'מוקד (2, 0)' },
+                    { text: 'מצאו את מוקדי האליפסה:', math: 'x²/25 + y²/9 = 1', answer: 'c=√(25−9)=4, מוקדים (±4, 0)' },
+                    { text: 'מצאו את האסימפטוטות של ההיפרבולה:', math: 'x²/9 − y²/16 = 1', answer: 'y = ±(4/3)x' },
+                ]
+            },
+            {
+                id: 'vectors', name: 'וקטורים וטריגונומטריה במרחב',
+                questions: [
+                    { text: 'נתונים הווקטורים u=(1,2,3) ו-v=(2,0,−1). מצאו u·v (מכפלה סקלרית).', math: 'u·v = 1·2 + 2·0 + 3·(−1)', answer: 'u·v = −1' },
+                    { text: 'מצאו את אורך הווקטור v=(3, 4, 12).', math: '|v| = √(3² + 4² + 12²)', answer: '|v| = 13' },
+                    { text: 'חשבו את נפח הכדור שרדיוסו 3.', math: 'V = (4/3)πr³', answer: 'V = 36π' },
+                    { text: 'חשבו את נפח הגליל שרדיוסו 2 וגובהו 5.', math: 'V = πr²h', answer: 'V = 20π' },
+                    { text: 'חשבו את נפח החרוט שרדיוסו 3 וגובהו 4.', math: 'V = (1/3)πr²h', answer: 'V = 12π' },
+                ]
+            },
+            {
+                id: 'complex', name: 'מספרים מרוכבים',
+                questions: [
+                    { text: 'חשבו: (2 + 3i) + (1 − i)', math: '(2+1) + (3−1)i', answer: '3 + 2i' },
+                    { text: 'חשבו את המכפלה: (1 + i)(2 − i)', math: '2 − i + 2i − i²', answer: '3 + i' },
+                    { text: 'מצאו את הערך המוחלט (מודול) של z = 3 + 4i.', math: '|z| = √(3² + 4²)', answer: '|z| = 5' },
+                    { text: 'לפי משפט דה-מואבר חשבו:', math: '(cos30° + i·sin30°)³', answer: 'cos90° + i·sin90° = i' },
+                    { text: 'פתרו את המשוואה:', math: 'z² = −9', answer: 'z = ±3i' },
+                ]
+            },
+            {
+                id: 'adv_calculus', name: 'חדו"א מתקדם (מעריכי ולוגריתמי)',
+                questions: [
+                    { text: 'מצאו את הנגזרת של הפונקציה:', math: 'f(x) = eˣ · x', answer: "f'(x) = eˣ(x + 1)" },
+                    { text: 'מצאו את הנגזרת של הפונקציה:', math: 'f(x) = ln(x² + 1)', answer: "f'(x) = 2x/(x² + 1)" },
+                    { text: 'חשבו את האינטגרל:', math: '∫ eˣ dx', answer: 'eˣ + C' },
+                    { text: 'בעיית גדילה: אוכלוסייה גדלה לפי N(t)=1000·e^(0.05t). כמה תהיה אחרי t=20?', math: 'N(20) = 1000·e¹', answer: '≈ 2718' },
+                    { text: 'מצאו את נקודת הקיצון של:', math: 'f(x) = xe⁻ˣ', answer: "f'(x)=e⁻ˣ(1−x)=0 → מקסימום ב-x=1" },
+                    { text: 'פתרו את המשוואה:', math: 'ln(x) = 2', answer: 'x = e² ≈ 7.39' },
+                ]
+            },
+        ]
+    }
 };
 
-// ===== NAVIGATION =====
-function showPage(pageId) {
+// ===== ניווט ולוגיקה =====
+let currentExam = '';
+let currentTopic = null;
+let currentQIdx = 0;
+
+function showPage(id) {
     document.querySelectorAll('[id^="page-"]').forEach(p => p.classList.add('hidden'));
-    document.getElementById(pageId).classList.remove('hidden');
+    document.getElementById(id).classList.remove('hidden');
 }
 
 function goHome() { showPage('page-home'); }
 
-function showGrade(grade) {
-    currentGrade = grade;
-    const gradeNames = {7:'الصف السابع', 8:'الصف الثامن', 9:'الصف التاسع'};
-    document.getElementById('grade-title').textContent = gradeNames[grade];
+function showExam(examId) {
+    currentExam = examId;
+    const exam = DB[examId];
+    document.getElementById('exam-title').textContent = exam.name;
     const list = document.getElementById('topics-list');
     list.innerHTML = '';
-    topics[grade].forEach(t => {
-        list.innerHTML += `<button class="btn btn-topic" onclick="showLevel('${t.id}')"><span class="topic-icon">${t.icon}</span> ${t.name}</button>`;
+    exam.topics.forEach((t, i) => {
+        list.innerHTML += `<button class="btn btn-topic" onclick="openTopic(${i})">
+            ${t.name} <span class="count">${t.questions.length} שאלות</span></button>`;
     });
     showPage('page-topics');
 }
 
-function showLevel(topicId) {
-    if (topicId) currentTopic = topicId;
-    const allTopics = [...topics[7], ...topics[8], ...topics[9]];
-    const t = allTopics.find(x => x.id === currentTopic);
-    document.getElementById('topic-title').textContent = t ? t.name : '';
-    showPage('page-level');
+function backToTopics() { showExam(currentExam); }
+
+function openTopic(idx) {
+    currentTopic = DB[currentExam].topics[idx];
+    currentQIdx = 0;
+    document.getElementById('topic-title').textContent = currentTopic.name;
+    document.getElementById('q-total').textContent = currentTopic.questions.length;
+    renderQuestion();
+    showPage('page-question');
 }
 
-function startExercise(level) {
-    currentLevel = level;
-    score = { correct: 0, wrong: 0, current: 1, total: 10 };
-    updateScore();
-    showPage('page-exercise');
-    generateQuestion();
+function renderQuestion() {
+    const q = currentTopic.questions[currentQIdx];
+    document.getElementById('q-idx').textContent = currentQIdx + 1;
+    document.getElementById('q-source').textContent = `שאלה ${currentQIdx + 1}`;
+    document.getElementById('q-text').textContent = q.text;
+    document.getElementById('q-math').innerHTML = q.math || '';
+    document.getElementById('q-math').style.display = q.math ? 'block' : 'none';
+    document.getElementById('answer-content').innerHTML = q.answer;
+    // hide answer by default
+    document.getElementById('answer-box').classList.add('hidden');
+    document.getElementById('btn-show').textContent = 'הצג תשובה 👁️';
 }
 
-// ===== EXERCISE LOGIC =====
-function updateScore() {
-    document.getElementById('score-correct').textContent = score.correct;
-    document.getElementById('score-wrong').textContent = score.wrong;
-    document.getElementById('score-current').textContent = score.current;
-    document.getElementById('score-total').textContent = score.total;
-}
-
-function generateQuestion() {
-    answered = false;
-    document.getElementById('feedback').classList.add('hidden');
-    document.getElementById('solution').classList.add('hidden');
-    document.getElementById('btn-next').classList.add('hidden');
-    document.getElementById('exercise-hint').textContent = '';
-    document.getElementById('exercise-input-area').innerHTML = '<input type="text" id="answer-input" class="exercise-input" onkeypress="if(event.key===\'Enter\')checkAnswer()" autocomplete="off">';
-
-    const generators = {
-        'fractions_add': genFractionsAdd,
-        'fractions_mul': genFractionsMul,
-        'order_of_ops': genOrderOfOps,
-        'powers': genPowers,
-        'square_root': genSquareRoot,
-        'negative_nums': genNegativeNums,
-        'algebraic_expr': genAlgebraicExpr,
-        'equations_basic': genEquationsBasic,
-        'rectangle_area': genRectangleArea,
-        'box_volume': genBoxVolume,
-        'angles': genAngles,
-        'triangle_area': genTriangleArea,
-        'circle': genCircle,
-        'linear_func': genLinearFunc,
-        'slope': genSlope,
-        'point_on_line': genPointOnLine,
-        'slope_two_points': genSlopeTwoPoints,
-        'equations_adv': genEquationsAdv,
-        'power_rules': genPowerRules,
-        'pythagoras': genPythagoras,
-        'parallelogram': genParallelogram,
-        'trapezoid': genTrapezoid,
-        'quadratic_eq': genQuadraticEq,
-        'factoring': genFactoring,
-        'systems_eq': genSystemsEq,
-        'coordinate_sys': genCoordinateSys,
-        'probability': genProbability,
-        'word_problems': genWordProblems,
-        'parabola': genParabola,
-        'inequalities': genInequalities,
-        'similarity': genSimilarity,
-        'trigonometry': genTrigonometry,
-        'statistics': genStatistics,
-    };
-
-    const gen = generators[currentTopic];
-    if (gen) {
-        gen();
+function toggleAnswer() {
+    const box = document.getElementById('answer-box');
+    const btn = document.getElementById('btn-show');
+    if (box.classList.contains('hidden')) {
+        box.classList.remove('hidden');
+        btn.textContent = 'הסתר תשובה 🙈';
     } else {
-        genDefault();
+        box.classList.add('hidden');
+        btn.textContent = 'הצג תשובה 👁️';
     }
 }
 
-function checkAnswer() {
-    if (answered) return;
-    const inputEl = document.getElementById('answer-input');
-    if (!inputEl) return;
-    answered = true;
-    const input = inputEl.value.trim().replace(/\s/g,'');
-    const fb = document.getElementById('feedback');
-    fb.classList.remove('hidden', 'correct', 'wrong');
-    document.getElementById('btn-next').classList.remove('hidden');
-
-    let isCorrect = false;
-    if (Array.isArray(currentAnswer)) {
-        isCorrect = currentAnswer.some(a => input === String(a));
-    } else if (typeof currentAnswer === 'number') {
-        // Try parsing as number first
-        const userNum = parseFloat(input.replace(',','.'));
-        if (!isNaN(userNum)) {
-            isCorrect = Math.abs(userNum - currentAnswer) < 0.01;
-        }
-        // Also accept fraction format for whole numbers
-        if (!isCorrect && input === String(currentAnswer)) isCorrect = true;
-    } else if (typeof currentAnswer === 'string') {
-        // String comparison - normalize
-        const norm = s => s.replace(/\s/g,'').toLowerCase();
-        isCorrect = norm(input) === norm(currentAnswer);
-        // Also accept if user writes without slash spaces etc
-        if (!isCorrect) {
-            isCorrect = input === currentAnswer;
-        }
-    }
-
-    if (isCorrect) {
-        fb.classList.add('correct');
-        fb.textContent = '✅ أحسنت! إجابة صحيحة';
-        score.correct++;
-    } else {
-        fb.classList.add('wrong');
-        const displayAnswer = Array.isArray(currentAnswer) ? currentAnswer[0] : currentAnswer;
-        fb.textContent = '❌ خطأ. الإجابة الصحيحة: ' + displayAnswer;
-        score.wrong++;
-    }
-    updateScore();
-}
-
-function nextQuestion() {
-    score.current++;
-    if (score.current > score.total) {
-        showResult();
-        return;
-    }
-    updateScore();
-    generateQuestion();
-}
-
-function showResult() {
-    showPage('page-result');
-    const pct = Math.round((score.correct / score.total) * 100);
-    let emoji = '🌟';
-    if (pct >= 90) emoji = '🏆';
-    else if (pct >= 70) emoji = '👏';
-    else if (pct >= 50) emoji = '💪';
-    else emoji = '📚';
-    document.getElementById('result-emoji').textContent = emoji;
-    document.getElementById('result-text').textContent = `${score.correct} من ${score.total} (${pct}%)`;
-    document.getElementById('result-detail').textContent = pct >= 70 ? 'ممتاز! واصل التدريب' : 'حاول مرة أخرى للتحسن';
-}
-
-// ===== HELPER FUNCTIONS =====
-function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
-function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while(b) { [a,b] = [b, a%b]; } return a; }
-function showQ(html, answer, hint, mode) {
-    document.getElementById('exercise-question').innerHTML = html;
-    currentAnswer = answer;
-    if (hint) document.getElementById('exercise-hint').textContent = hint;
-    
-    const inputArea = document.getElementById('exercise-input-area');
-    if (mode === 'yesno') {
-        inputArea.innerHTML = '<button class="btn-yn btn-yes" onclick="submitYesNo(\'نعم\')">نعم ✓</button><button class="btn-yn btn-no" onclick="submitYesNo(\'لا\')">لا ✗</button>';
-    } else if (mode === 'slope-type') {
-        inputArea.innerHTML = '<button class="btn-yn" style="background:#4caf50;color:white;" onclick="submitYesNo(\'موجب\')">موجب ↗</button><button class="btn-yn" style="background:#f44336;color:white;" onclick="submitYesNo(\'سالب\')">سالب ↘</button><button class="btn-yn" style="background:#607d8b;color:white;" onclick="submitYesNo(\'صفر\')">صفر →</button>';
-    } else {
-        inputArea.innerHTML = '<input type="text" id="answer-input" class="exercise-input" onkeypress="if(event.key===\'Enter\')checkAnswer()" autocomplete="off">';
-        document.getElementById('answer-input').focus();
+function nextQ() {
+    if (currentQIdx < currentTopic.questions.length - 1) {
+        currentQIdx++;
+        renderQuestion();
     }
 }
 
-function submitYesNo(val) {
-    if (answered) return;
-    answered = true;
-    const fb = document.getElementById('feedback');
-    fb.classList.remove('hidden', 'correct', 'wrong');
-    document.getElementById('btn-next').classList.remove('hidden');
-    
-    if (val === currentAnswer) {
-        fb.classList.add('correct');
-        fb.textContent = '✅ أحسنت! إجابة صحيحة';
-        score.correct++;
-    } else {
-        fb.classList.add('wrong');
-        fb.textContent = '❌ خطأ. الإجابة الصحيحة: ' + currentAnswer;
-        score.wrong++;
+function prevQ() {
+    if (currentQIdx > 0) {
+        currentQIdx--;
+        renderQuestion();
     }
-    updateScore();
-}
-
-// ===== GENERATORS =====
-
-function genFractionsAdd() {
-    let a,b,c,d;
-    if (currentLevel === 'easy') {
-        d = [2,3,4,5,6,8][rand(0,5)];
-        a = rand(1, d-1); c = rand(1, d-1);
-        const op = rand(0,1) ? '+' : '-';
-        if (op === '-' && a < c) [a,c] = [c,a];
-        const num = op === '+' ? a+c : a-c;
-        const g = gcd(Math.abs(num), d);
-        const fn = num/g, fd = d/g;
-        const answer = fd === 1 ? String(fn) : `${fn}/${fd}`;
-        showQ(`${a}/${d} ${op} ${c}/${d} = ?`, answer, 'المقامات متساوية - اجمع/اطرح البسط فقط');
-    } else {
-        b = [2,3,4,5,6][rand(0,4)];
-        d = [2,3,4,5,6][rand(0,4)];
-        while (d === b) d = [2,3,4,5,6][rand(0,4)];
-        a = rand(1, b-1); c = rand(1, d-1);
-        const op = rand(0,1) ? '+' : '-';
-        const lcd = (b*d)/gcd(b,d);
-        const num1 = a*(lcd/b); const num2 = c*(lcd/d);
-        let resNum = op === '+' ? num1+num2 : num1-num2;
-        if (op === '-' && resNum < 0) {
-            // swap to avoid negative
-            resNum = num2 - num1;
-            [a, b, c, d] = [c, d, a, b];
-        }
-        const g = gcd(Math.abs(resNum), lcd);
-        const fn = resNum/g; const fd = lcd/g;
-        const answer = fd === 1 ? String(fn) : `${fn}/${fd}`;
-        const dispOp = op;
-        showQ(`${a}/${b} ${dispOp} ${c}/${d} = ?`, answer, 'أوجد المقام المشترك');
-    }
-}
-
-function genFractionsMul() {
-    let a,b,c,d;
-    if (currentLevel === 'easy') {
-        b = rand(2,6); d = rand(2,6);
-        a = rand(1,b-1); c = rand(1,d-1);
-        const num = a*c; const den = b*d;
-        const g = gcd(num,den);
-        const answer = den/g === 1 ? String(num/g) : `${num/g}/${den/g}`;
-        showQ(`${a}/${b} × ${c}/${d} = ?`, answer, 'اضرب البسط بالبسط والمقام بالمقام');
-    } else {
-        b = rand(2,8); d = rand(2,8);
-        a = rand(1,b); c = rand(1,d);
-        const isDivision = rand(0,1);
-        if (isDivision) {
-            const num = a*d; const den = b*c;
-            const g = gcd(num,den);
-            const answer = den/g === 1 ? String(num/g) : `${num/g}/${den/g}`;
-            showQ(`${a}/${b} ÷ ${c}/${d} = ?`, answer, 'اقلب الكسر الثاني واضرب');
-        } else {
-            const num = a*c; const den = b*d;
-            const g = gcd(num,den);
-            const answer = den/g === 1 ? String(num/g) : `${num/g}/${den/g}`;
-            showQ(`${a}/${b} × ${c}/${d} = ?`, answer, 'اضرب البسط بالبسط والمقام بالمقام');
-        }
-    }
-}
-
-function genOrderOfOps() {
-    let expr, answer;
-    if (currentLevel === 'easy') {
-        const a = rand(2,10), b = rand(2,5), c = rand(1,10);
-        const op = rand(0,1);
-        if (op) { expr = `${a} + ${b} × ${c}`; answer = a + b*c; }
-        else { expr = `${a} × ${b} + ${c}`; answer = a*b + c; }
-    } else if (currentLevel === 'medium') {
-        const a = rand(2,8), b = rand(1,5), c = rand(1,5), d = rand(2,6);
-        expr = `(${a} + ${b}) × ${c} - ${d}`; answer = (a+b)*c - d;
-    } else {
-        const a = rand(2,5), b = rand(1,4), c = rand(2,4);
-        expr = `${a}² + ${b} × ${c}`; answer = a*a + b*c;
-    }
-    showQ(`${expr} = ?`, answer);
-}
-
-function genPowers() {
-    if (currentLevel === 'easy') {
-        const base = rand(2,6), exp = rand(2,3);
-        const answer = Math.pow(base, exp);
-        showQ(`${base}<sup>${exp}</sup> = ?`, answer);
-    } else if (currentLevel === 'medium') {
-        const base = rand(2,5), exp = rand(2,4);
-        const mult = rand(2,5);
-        const answer = mult * Math.pow(base, exp);
-        showQ(`${mult} × ${base}<sup>${exp}</sup> = ?`, answer);
-    } else {
-        const a = rand(2,4), b = rand(2,3);
-        const c = rand(1,5);
-        const answer = Math.pow(a,b) + c;
-        showQ(`${a}<sup>${b}</sup> + ${c} = ?`, answer);
-    }
-}
-
-function genSquareRoot() {
-    const squares = [4,9,16,25,36,49,64,81,100,121,144];
-    if (currentLevel === 'easy') {
-        const n = squares[rand(0,5)];
-        showQ(`√${n} = ?`, Math.sqrt(n));
-    } else {
-        const n = squares[rand(0,10)];
-        const add = rand(1,10);
-        const answer = Math.sqrt(n) + add;
-        showQ(`√${n} + ${add} = ?`, answer);
-    }
-}
-
-function genNegativeNums() {
-    let a, b, answer, expr;
-    if (currentLevel === 'easy') {
-        a = rand(-10, 10); b = rand(-10, 10);
-        while (a === 0) a = rand(-10, 10);
-        while (b === 0) b = rand(-10, 10);
-        const op = rand(0,1);
-        if (op) { expr = `(${a}) + (${b})`; answer = a + b; }
-        else { expr = `(${a}) - (${b})`; answer = a - b; }
-    } else if (currentLevel === 'medium') {
-        a = rand(-8, -1); b = rand(-8, 8);
-        while (b === 0) b = rand(-8, 8);
-        expr = `(${a}) × (${b})`; answer = a * b;
-    } else {
-        a = rand(-5, 5); b = rand(-5, -1); const c = rand(2, 5);
-        expr = `(${a}) + (${b}) × ${c}`;
-        answer = a + b * c;
-    }
-    showQ(`${expr} = ?`, answer);
-}
-
-function genAlgebraicExpr() {
-    const a = rand(1,8), b = rand(1,8);
-    if (currentLevel === 'easy') {
-        const answer = a + b;
-        showQ(`${a}x + ${b}x = ?<br>Coefficient of x = ?`, answer, 'كنّس الحدود المتشابهة');
-    } else {
-        const d = rand(1, Math.min(a+b-1, 5));
-        const answer = a + b - d;
-        showQ(`${a}x + ${b}x - ${d}x = ?<br>Coefficient of x = ?`, answer, 'كنّس الحدود المتشابهة');
-    }
-}
-
-function genEquationsBasic() {
-    let answer, expr;
-    if (currentLevel === 'easy') {
-        answer = rand(1, 10);
-        const a = rand(2, 6);
-        const b = a * answer;
-        showQ(`${a}x = ${b}<br>x = ?`, answer);
-    } else if (currentLevel === 'medium') {
-        answer = rand(1, 10);
-        const a = rand(2, 5);
-        const b = rand(1, 10);
-        const c = a * answer + b;
-        showQ(`${a}x + ${b} = ${c}<br>x = ?`, answer);
-    } else {
-        answer = rand(1, 8);
-        const a = rand(2, 4);
-        const b = rand(1, 5);
-        const c = rand(1, 3);
-        const rhs = a*answer + b - c;
-        showQ(`${a}x + ${b} - ${c} = ${rhs}<br>x = ?`, answer);
-    }
-}
-
-function genRectangleArea() {
-    const a = rand(3, 15), b = rand(3, 15);
-    if (currentLevel === 'easy') {
-        const answer = a * b;
-        showQ(`مستطيل: الطول=${a} والعرض=${b}<br>المساحة = ?`, answer);
-    } else if (currentLevel === 'medium') {
-        const answer = 2*(a+b);
-        showQ(`مستطيل: الطول=${a} والعرض=${b}<br>المحيط = ?`, answer);
-    } else {
-        const perimeter = rand(20, 60);
-        const side = rand(3, perimeter/2 - 2);
-        const other = perimeter/2 - side;
-        const answer = side * other;
-        showQ(`مستطيل: المحيط=${perimeter} وطول أحد الأضلاع=${side}<br>المساحة = ?`, answer);
-    }
-}
-
-function genBoxVolume() {
-    const a = rand(2,8), b = rand(2,8), c = rand(2,8);
-    if (currentLevel === 'easy') {
-        showQ(`صندوق: ${a} × ${b} × ${c}<br>الحجم = ?`, a*b*c);
-    } else {
-        const sa = 2*(a*b + b*c + a*c);
-        showQ(`صندوق: ${a} × ${b} × ${c}<br>مساحة السطح = ?`, sa);
-    }
-}
-
-function genAngles() {
-    if (currentLevel === 'easy') {
-        const a = rand(30, 150);
-        const answer = 180 - a;
-        showQ(`زاويتان متجاورتان. إحداهما ${a}°<br>ما قياس الأخرى؟`, answer, 'مجموع الزوايا المتجاورة = 180°');
-    } else if (currentLevel === 'medium') {
-        const a = rand(20, 80);
-        showQ(`زاويتان قودقوديتان. إحداهما ${a}°<br>ما قياس الأخرى؟`, a, 'الزوايا القودقودية متساوية');
-    } else {
-        const a = rand(40, 80);
-        const b = 180 - a;
-        const answer = a;
-        showQ(`خطان متوازيان وقاطع. زاوية متبادلة = ${a}°<br>ما الزاوية المتبادلة الأخرى؟`, answer, 'الزوايا المتبادلة بين متوازيين متساوية');
-    }
-}
-
-function genTriangleArea() {
-    const base = rand(4, 16), height = rand(3, 12);
-    if (currentLevel === 'easy') {
-        const answer = (base * height) / 2;
-        showQ(`مثلث: القاعدة=${base} والارتفاع=${height}<br>المساحة = ?`, answer);
-    } else {
-        const a = rand(20,80), b = rand(20, 160-a);
-        const c = 180 - a - b;
-        showQ(`مثلث: زاويتان ${a}° و ${b}°<br>ما الزاوية الثالثة؟`, c, 'مجموع زوايا المثلث = 180°');
-    }
-}
-
-function genCircle() {
-    const r = rand(2, 10);
-    if (currentLevel === 'easy') {
-        const answer = Math.round(2 * 3.14 * r * 100) / 100;
-        showQ(`Circle with radius = ${r}<br>Circumference = ? (use π = 3.14)`, answer, 'المحيط = 2 × π × r');
-    } else {
-        const answer = Math.round(3.14 * r * r * 100) / 100;
-        showQ(`Circle with radius = ${r}<br>Area = ? (use π = 3.14)`, answer, 'المساحة = π × r²');
-    }
-}
-
-// ===== GRADE 8 GENERATORS =====
-
-function genLinearFunc() {
-    const m = rand(-4, 4);
-    const b = rand(-5, 5);
-    const x = rand(-3, 3);
-    const answer = m * x + b;
-    const bStr = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
-    showQ(`y = ${m}x ${bStr}<br>ما قيمة y عندما x = ${x}؟`, answer);
-}
-
-function genSlope() {
-    if (currentLevel === 'easy') {
-        const m = rand(-5, 5);
-        const b = rand(-5, 5);
-        const bStr = b >= 0 ? '+ ' + b : '- ' + Math.abs(b);
-        showQ(`y = ${m}x ${bStr}<br>What is the slope (m)?`, m);
-    } else {
-        const m = rand(-4, 4);
-        const b = rand(-5, 5);
-        const bStr = b >= 0 ? '+ ' + b : '- ' + Math.abs(b);
-        let type;
-        if (m > 0) type = 'موجب';
-        else if (m < 0) type = 'سالب';
-        else type = 'صفر';
-        const inputArea = 'slope-type';
-        showQ(`y = ${m}x ${bStr}<br>m = ${m}`, type, 'حدد نوع الميل', 'slope-type');
-    }
-}
-
-function genPointOnLine() {
-    const m = rand(1, 4), b = rand(-5, 5);
-    const x = rand(-3, 4);
-    const y = m * x + b;
-    const onLine = rand(0,1);
-    const testY = onLine ? y : y + rand(1,3);
-    const bStr = b >= 0 ? '+ ' + b : '- ' + Math.abs(b);
-    const answer = onLine ? 'نعم' : 'لا';
-    showQ(`Is the point (${x}, ${testY}) on the line y = ${m}x ${bStr} ?`, answer, 'عوّض x في المعادلة وافحص', 'yesno');
-}
-
-function genSlopeTwoPoints() {
-    const m = rand(-4, 4);
-    const x1 = rand(-3, 2), x2 = x1 + rand(1, 4);
-    const y1 = rand(-5, 5), y2 = y1 + m * (x2 - x1);
-    showQ(`احسب ميل المستقيم المار بالنقطتين:<br>(${x1}, ${y1}) و (${x2}, ${y2})<br>m = ?`, m, 'm = (y₂-y₁)/(x₂-x₁)');
-}
-
-function genEquationsAdv() {
-    let answer = rand(-5, 8);
-    while (answer === 0) answer = rand(-5, 8);
-    const a = rand(2, 5), c = rand(1, a-1);
-    const b = rand(1, 8);
-    const d = a*answer + b - c*answer;
-    showQ(`${a}x + ${b} = ${c}x + ${d}<br>x = ?`, answer, 'اجمع حدود x في طرف والأعداد في الطرف الآخر');
-}
-
-function genPowerRules() {
-    if (currentLevel === 'easy') {
-        const base = rand(2,5), e1 = rand(1,3), e2 = rand(1,3);
-        const answer = e1 + e2;
-        showQ(`${base}<sup>${e1}</sup> × ${base}<sup>${e2}</sup> = ${base}<sup>?</sup>`, answer, 'عند الضرب: نجمع الأسس');
-    } else if (currentLevel === 'medium') {
-        const base = rand(2,5), e1 = rand(3,6), e2 = rand(1, e1-1);
-        const answer = e1 - e2;
-        showQ(`${base}<sup>${e1}</sup> ÷ ${base}<sup>${e2}</sup> = ${base}<sup>?</sup>`, answer, 'عند القسمة: نطرح الأسس');
-    } else {
-        const base = rand(2,4), e1 = rand(2,3), e2 = rand(2,3);
-        const answer = e1 * e2;
-        showQ(`(${base}<sup>${e1}</sup>)<sup>${e2}</sup> = ${base}<sup>?</sup>`, answer, 'أس الأس: نضرب الأسس');
-    }
-}
-
-function genPythagoras() {
-    const triples = [[3,4,5],[5,12,13],[6,8,10],[8,15,17],[9,12,15]];
-    const t = triples[rand(0, triples.length-1)];
-    if (currentLevel === 'easy') {
-        showQ(`مثلث قائم الزاوية: الأضلاع ${t[0]} و ${t[1]}<br>الوتر = ?`, t[2], 'c² = a² + b²');
-    } else {
-        const idx = rand(0,1);
-        const other = 1-idx;
-        showQ(`مثلث قائم الزاوية: الوتر=${t[2]} وأحد الأضلاع=${t[idx]}<br>الضلع الآخر = ?`, t[other], 'a² = c² - b²');
-    }
-}
-
-function genParallelogram() {
-    const base = rand(4, 15), height = rand(3, 12);
-    showQ(`متوازي أضلاع: القاعدة=${base} والارتفاع=${height}<br>المساحة = ?`, base*height, 'المساحة = القاعدة × الارتفاع');
-}
-
-function genTrapezoid() {
-    const a = rand(4, 12), b = rand(4, 12), h = rand(3, 10);
-    const answer = (a + b) * h / 2;
-    showQ(`شبه منحرف: القاعدتان ${a} و ${b}، الارتفاع=${h}<br>المساحة = ?`, answer, 'المساحة = (a+b)×h/2');
-}
-
-// ===== GRADE 9 GENERATORS =====
-
-function genFactoring() {
-    if (currentLevel === 'easy') {
-        const a = rand(2,8);
-        const b = rand(1,6);
-        // ax + ab = a(x+b)
-        const answer = `x+${b}`;
-        showQ(`Factor: ${a}x + ${a*b} = ${a}(...)<br>What is inside the brackets?<br>Example format: x+${b}`, [answer, `x + ${b}`], 'أخرج العامل المشترك');
-    } else {
-        // (x+a)(x+b) = x² + (a+b)x + ab
-        const a = rand(1,6), b = rand(1,6);
-        const sum = a+b, prod = a*b;
-        showQ(`Factor: x² + ${sum}x + ${prod}<br>= (x + ?)(x + ?)<br>Write the two numbers separated by comma`, [`${a},${b}`, `${b},${a}`], 'Find two numbers: sum=' + sum + ' product=' + prod);
-    }
-}
-
-function genQuadraticEq() {
-    // x² - (a+b)x + ab = 0 => x=a, x=b
-    const a = rand(1,8), b = rand(1,8);
-    const sum = a + b, prod = a * b;
-    if (currentLevel === 'easy') {
-        showQ(`x² - ${sum}x + ${prod} = 0<br>أوجد قيم x (اكتب الأصغر)`, Math.min(a,b));
-    } else {
-        showQ(`x² - ${sum}x + ${prod} = 0<br>أوجد قيم x (اكتب الأكبر)`, Math.max(a,b));
-    }
-}
-
-function genSystemsEq() {
-    // ax + y = c, x + y = d
-    const x = rand(1, 6), y = rand(1, 6);
-    const a1 = rand(1,3), b1 = 1;
-    const c1 = a1*x + b1*y;
-    const a2 = 1, b2 = rand(1,3);
-    const c2 = a2*x + b2*y;
-    showQ(`جملة معادلتين:<br>${a1}x + y = ${c1}<br>x + ${b2}y = ${c2}<br>أوجد x`, x);
-}
-
-function genDefault() {
-    // This should not be reached - redirect to a basic algebra question
-    const a = rand(2,6), answer = rand(1,10);
-    const b = a * answer;
-    showQ(`${a}x = ${b}<br>x = ?`, answer);
-}
-
-// ===== GRADE 9 ADDITIONAL GENERATORS =====
-
-function genParabola() {
-    if (currentLevel === 'easy') {
-        // Find vertex of y = x² + bx + c or y = (x-p)² + q
-        const p = rand(-4, 4), q = rand(-5, 5);
-        const type = rand(0,1);
-        if (type === 0) {
-            // Given y = (x-p)² + q, what is the vertex x-coordinate?
-            const pStr = p >= 0 ? `- ${p}` : `+ ${Math.abs(p)}`;
-            const qStr = q >= 0 ? `+ ${q}` : `- ${Math.abs(q)}`;
-            showQ(`y = (x ${pStr})² ${qStr}<br>The vertex x-coordinate = ?`, p, 'قمة الباربولا y=(x-p)²+q هي (p,q)');
-        } else {
-            // Given y = (x-p)² + q, what is the vertex y-coordinate?
-            const pStr = p >= 0 ? `- ${p}` : `+ ${Math.abs(p)}`;
-            const qStr = q >= 0 ? `+ ${q}` : `- ${Math.abs(q)}`;
-            showQ(`y = (x ${pStr})² ${qStr}<br>The vertex y-coordinate = ?`, q, 'قمة الباربولا y=(x-p)²+q هي (p,q)');
-        }
-    } else if (currentLevel === 'medium') {
-        // y = ax², find y for given x
-        const a = rand(1,3) * (rand(0,1) ? 1 : -1);
-        const x = rand(-3, 3);
-        const answer = a * x * x;
-        const aStr = a === 1 ? '' : a === -1 ? '-' : String(a);
-        showQ(`y = ${aStr}x²<br>When x = ${x}, y = ?`, answer);
-    } else {
-        // y = x² - (a+b)x + ab, find x-intercepts (roots)
-        const a = rand(-3, 5), b = rand(-3, 5);
-        while (a === b) b = rand(-3, 5);
-        const sum = a + b, prod = a * b;
-        const sumStr = sum >= 0 ? `- ${sum}` : `+ ${Math.abs(sum)}`;
-        const prodStr = prod >= 0 ? `+ ${prod}` : `- ${Math.abs(prod)}`;
-        showQ(`y = x² ${sumStr}x ${prodStr}<br>Find one x-intercept (y=0)`, [a, b, String(a), String(b)], 'حل x²' + sumStr + 'x' + prodStr + ' = 0');
-    }
-}
-
-function genInequalities() {
-    if (currentLevel === 'easy') {
-        // ax + b > c => x > (c-b)/a
-        const answer = rand(1, 8);
-        const a = rand(2, 5);
-        const b = rand(1, 10);
-        const c = a * answer + b;
-        showQ(`${a}x + ${b} > ${c}<br>x > ?`, answer, 'حل كمعادلة عادية');
-    } else if (currentLevel === 'medium') {
-        const answer = rand(-5, 5);
-        const a = rand(2, 4);
-        const b = rand(1, 8);
-        const c = a * answer + b;
-        showQ(`${a}x + ${b} < ${c}<br>x < ?`, answer);
-    } else {
-        // When dividing by negative, flip the sign
-        const answer = rand(1, 6);
-        const a = rand(-4, -2);
-        const b = rand(1, 10);
-        const c = a * answer + b;
-        showQ(`${a}x + ${b} > ${c}<br>x < ? (note: divide by negative flips sign)`, answer);
-    }
-}
-
-function genSimilarity() {
-    if (currentLevel === 'easy') {
-        // Simple ratio: if sides are proportional
-        const ratio = rand(2, 4);
-        const side1 = rand(3, 10);
-        const answer = side1 * ratio;
-        showQ(`Two similar triangles. Scale factor = ${ratio}.<br>If a side in the small triangle = ${side1}<br>The corresponding side in the large = ?`, answer);
-    } else {
-        // Find missing side
-        const a1 = rand(3, 8), b1 = rand(3, 8);
-        const ratio = rand(2, 4);
-        const a2 = a1 * ratio;
-        const answer = b1 * ratio;
-        showQ(`Similar triangles:<br>Triangle 1: sides ${a1}, ${b1}<br>Triangle 2: one side = ${a2}<br>The corresponding side to ${b1} = ?`, answer, 'Find the ratio first: ' + a2 + '/' + a1 + ' = ' + ratio);
-    }
-}
-
-function genTrigonometry() {
-    // Basic sin/cos/tan values for known angles
-    const angles = [
-        {deg: 30, sin: '1/2', cos: '0.87', tan: '0.58'},
-        {deg: 45, sin: '0.71', cos: '0.71', tan: '1'},
-        {deg: 60, sin: '0.87', cos: '1/2', tan: '1.73'},
-    ];
-    if (currentLevel === 'easy') {
-        // SOH CAH TOA - find opposite/adjacent/hypotenuse
-        const opp = rand(3, 12), adj = rand(3, 12);
-        const type = rand(0,2);
-        if (type === 0) {
-            showQ(`Right triangle: opposite = ${opp}, hypotenuse = ${opp*2}<br>sin(α) = ? (write as fraction)`, `1/2`, 'sin = opposite / hypotenuse');
-        } else if (type === 1) {
-            const hyp = rand(10, 20);
-            const answer = hyp * 2;
-            showQ(`Right triangle: sin(α) = 0.5, hypotenuse = ${answer}<br>opposite side = ?`, answer/2, 'opposite = sin × hypotenuse');
-        } else {
-            const triple = [[3,4,5],[6,8,10],[5,12,13]][rand(0,2)];
-            showQ(`Right triangle: opposite=${triple[0]}, adjacent=${triple[1]}<br>tan(α) = opposite/adjacent = ?<br>(write as fraction)`, `${triple[0]}/${triple[1]}`, 'tan = opposite / adjacent');
-        }
-    } else {
-        // Use pythagorean triples and find trig ratios
-        const triples = [[3,4,5],[5,12,13],[6,8,10],[8,15,17]];
-        const t = triples[rand(0,3)];
-        const func = ['sin','cos','tan'][rand(0,2)];
-        let answer;
-        if (func === 'sin') { answer = `${t[0]}/${t[2]}`; }
-        else if (func === 'cos') { answer = `${t[1]}/${t[2]}`; }
-        else { answer = `${t[0]}/${t[1]}`; }
-        showQ(`Right triangle: opposite=${t[0]}, adjacent=${t[1]}, hypotenuse=${t[2]}<br>${func}(α) = ? (write as fraction)`, answer);
-    }
-}
-
-function genStatistics() {
-    if (currentLevel === 'easy') {
-        // Find mean (average)
-        const count = rand(3, 5);
-        const nums = [];
-        for (let i = 0; i < count; i++) nums.push(rand(2, 20));
-        const sum = nums.reduce((a,b) => a+b, 0);
-        const answer = sum / count;
-        if (answer === Math.floor(answer)) {
-            showQ(`Find the mean (average):<br>${nums.join(', ')}<br>Mean = ?`, answer);
-        } else {
-            // Regenerate to get whole number average
-            const base = rand(2, 15);
-            const nums2 = [base, base+2, base+4, base-2, base-4];
-            const slice = nums2.slice(0, count);
-            const sum2 = slice.reduce((a,b) => a+b, 0);
-            showQ(`Find the mean (average):<br>${slice.join(', ')}<br>Mean = ?`, sum2/count);
-        }
-    } else if (currentLevel === 'medium') {
-        // Find median
-        const count = 5;
-        const nums = [];
-        for (let i = 0; i < count; i++) nums.push(rand(1, 20));
-        nums.sort((a,b) => a-b);
-        const answer = nums[2]; // middle of 5
-        // Shuffle for display
-        const display = [...nums].sort(() => Math.random() - 0.5);
-        showQ(`Find the median:<br>${display.join(', ')}<br>Median = ?`, answer, 'رتب الأعداد من الأصغر للأكبر ثم خذ الأوسط');
-    } else {
-        // Find range
-        const nums = [];
-        for (let i = 0; i < 6; i++) nums.push(rand(1, 30));
-        const max = Math.max(...nums), min = Math.min(...nums);
-        const answer = max - min;
-        showQ(`Find the range:<br>${nums.join(', ')}<br>Range = max - min = ?`, answer);
-    }
-}
-
-// coordinate system
-function genCoordinateSys() {
-    // Avoid points on axes
-    let x = 0, y = 0;
-    while (x === 0) x = rand(-5, 5);
-    while (y === 0) y = rand(-5, 5);
-    let quadrant;
-    if (x > 0 && y > 0) quadrant = 1;
-    else if (x < 0 && y > 0) quadrant = 2;
-    else if (x < 0 && y < 0) quadrant = 3;
-    else quadrant = 4;
-    showQ(`The point (${x}, ${y}) is in which quadrant?<br>(1 / 2 / 3 / 4)`, quadrant);
-}
-
-// probability
-function genProbability() {
-    const total = rand(6, 20);
-    const favorable = rand(1, total-1);
-    const g = gcd(favorable, total);
-    const answer = `${favorable/g}/${total/g}`;
-    showQ(`In a bag: ${total} balls, ${favorable} are red.<br>Probability of picking red = ?`, answer);
-}
-
-// word problems
-function genWordProblems() {
-    const answer = rand(3, 20);
-    const mult = rand(2, 4);
-    const add = rand(5, 30);
-    const total = mult * answer + add;
-    showQ(`A number multiplied by ${mult} then added ${add} gives ${total}.<br>What is the number?`, answer);
 }
 </script>
 </body>
