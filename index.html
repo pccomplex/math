@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>בגרות במתמטיקה 5 יח"ל - תרגול</title>
+    <title>التحليل إلى عوامل - 5 وحدات</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -12,39 +12,22 @@
             background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             color: #eee;
             min-height: 100vh;
+            line-height: 1.7;
         }
         .container { max-width: 950px; margin: 0 auto; padding: 20px; }
         h1 { text-align: center; font-size: 26px; margin: 15px 0 5px; color: #64ffda; }
         .subtitle { text-align: center; color: #90a4ae; margin-bottom: 20px; font-size: 15px; }
-        h2 { text-align: center; font-size: 22px; margin: 15px 0; color: #80cbc4; }
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            margin: 6px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.25s;
-            font-family: inherit;
+        .level-header {
+            font-size: 22px;
+            margin: 25px 0 10px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: bold;
         }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-        .btn-exam { background: #00838f; color: white; font-size: 20px; padding: 22px 30px; width: 100%; margin: 10px 0; text-align: right; }
-        .btn-exam small { display: block; font-size: 14px; color: #b2dfdb; margin-top: 5px; font-weight: normal; }
-        .btn-topic { background: #37474f; color: #e0e0e0; text-align: right; width: 100%; padding: 15px 20px; display: block; margin: 8px 0; border-radius: 10px; font-size: 16px; }
-        .btn-topic:hover { background: #455a64; }
-        .btn-topic .count { float: left; background: #00838f; padding: 2px 10px; border-radius: 12px; font-size: 13px; }
-        .btn-back { background: #546e7a; color: white; margin: 10px 0; }
-        .btn-show { background: #43a047; color: white; font-size: 17px; padding: 12px 28px; }
-        .btn-nav { background: #0288d1; color: white; font-size: 16px; padding: 10px 24px; }
-        .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
-        .hidden { display: none; }
-    </style>
-</head>
-<body>
-<div class="container">
-    <style>
-        .q-item {
+        .level-basic { background: #1b5e20; color: #a5d6a7; }
+        .level-medium { background: #e65100; color: #ffcc80; }
+        .level-advanced { background: #6a1b9a; color: #ce93d8; }
+        .exercise {
             background: #1a2c38;
             border-radius: 12px;
             padding: 20px 22px;
@@ -52,315 +35,249 @@
             box-shadow: 0 3px 12px rgba(0,0,0,0.25);
             border-right: 4px solid #00838f;
         }
-        .q-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 12px;
-            flex-wrap: wrap;
+        .ex-title { font-size: 18px; color: #64ffda; font-weight: bold; margin-bottom: 8px; }
+        .ex-instruction { font-size: 16px; color: #cfd8dc; margin-bottom: 12px; }
+        table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+        th, td { border: 1px solid #455a64; padding: 10px 14px; text-align: center; }
+        th { background: #263238; color: #80cbc4; }
+        td { background: #11212b; }
+        .math { direction: ltr; display: inline-block; unicode-bidi: embed; }
+        .math-block {
+            direction: ltr; text-align: center;
+            background: #0d1b24; padding: 14px;
+            border-radius: 8px; margin: 10px 0; font-size: 18px;
         }
-        .q-num {
-            background: #00838f;
-            color: white;
-            width: 34px; height: 34px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: bold;
-            flex-shrink: 0;
-            font-size: 16px;
-        }
-        .q-body { flex: 1; min-width: 200px; }
-        .q-text {
-            font-size: 18px;
-            line-height: 1.7;
-            margin-bottom: 8px;
-        }
-        .q-math {
-            direction: ltr;
-            text-align: center;
-            background: #0d1b24;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-size: 19px;
-            overflow-x: auto;
-        }
-        .btn-show {
-            background: #43a047; color: white;
-            font-size: 14px; padding: 8px 16px;
-            flex-shrink: 0;
-        }
-        .answer-box {
-            background: #1b3a2a;
-            border: 1px solid #43a047;
-            border-radius: 8px;
-            padding: 14px;
+        details {
             margin-top: 12px;
-            direction: ltr;
-            text-align: center;
-            font-size: 18px;
+            background: #0d2137;
+            border-radius: 8px;
+            padding: 0;
+            overflow: hidden;
         }
-        .answer-label { color: #81c784; direction: rtl; text-align: right; font-size: 14px; margin-bottom: 6px; }
+        summary {
+            cursor: pointer;
+            padding: 12px 16px;
+            background: #1b3a2a;
+            color: #81c784;
+            font-weight: bold;
+            font-size: 15px;
+            list-style: none;
+            user-select: none;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary:hover { background: #224a35; }
+        .solution-body {
+            padding: 15px 18px;
+            direction: ltr;
+            text-align: left;
+            font-size: 16px;
+            line-height: 2;
+        }
+        .solution-body .rtl-note { direction: rtl; text-align: right; color: #90a4ae; }
         footer {
-            text-align: center;
-            margin: 40px 0 20px;
-            padding: 20px;
-            border-top: 1px solid #37474f;
-            color: #78909c;
-            font-size: 14px;
+            text-align: center; margin: 40px 0 20px; padding: 20px;
+            border-top: 1px solid #37474f; color: #78909c; font-size: 14px;
         }
         footer a { color: #64ffda; text-decoration: none; }
-        .level-tabs { text-align: center; margin: 15px 0; }
-        .level-tab {
-            padding: 8px 20px;
-            margin: 4px;
-            border: 1px solid #546e7a;
-            background: transparent;
-            color: #b0bec5;
-            border-radius: 20px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 15px;
+        .print-link {
+            display: inline-block; margin: 15px 0; padding: 10px 22px;
+            background: #0288d1; color: white; border-radius: 8px;
+            text-decoration: none; font-size: 15px;
         }
-        .level-tab.active { background: #00838f; color: white; border-color: #00838f; }
-        sub, sup { font-size: 0.7em; }
+        sub, sup { font-size: 0.75em; }
     </style>
+</head>
+<body>
+<div class="container">
+    <h1>🧩 التحليل إلى عوامل وقانون التوزيع</h1>
+    <p class="subtitle">تمارين متدرّجة للصف الثاني عشر · 5 وحدات</p>
+    <div style="text-align:center;">
+        <a href="print.html" class="print-link">🖨️ نسخة للطباعة (PDF)</a>
+    </div>
+</div>
+<div class="container">
 
-    <!-- דף ראשי -->
-    <div id="page-home">
-        <h1>📐 בגרות במתמטיקה 5 יחידות</h1>
-        <p class="subtitle">תרגול לפי מתכונת משרד החינוך</p>
-        <button class="btn btn-exam" onclick="showExam('35571')">
-            שאלון 35571 <small>כיתה י"א · חדו"א, סדרות, גיאומטריה, הסתברות</small>
-        </button>
-        <button class="btn btn-exam" onclick="showExam('35572')">
-            שאלון 35572 <small>כיתה י"ב · גיאומטריה אנליטית, וקטורים, מרוכבים, חדו"א מתקדם</small>
-        </button>
+    <!-- ===== المستوى الأساسي ===== -->
+    <div class="level-header level-basic">🟢 المستوى الأساسي — بناء الفهم الأولي</div>
+
+    <div class="exercise">
+        <div class="ex-title">تمرين 1.1: قانون التوزيع الموسّع (إكمال جدول)</div>
+        <div class="ex-instruction">أكمل الجدول التالي عن طريق تبسيط التعابير:</div>
+        <table>
+            <tr><th>التعبير الأصلي</th><th>التعبير المبسّط</th></tr>
+            <tr><td class="math">(x+3)(x+4)</td><td></td></tr>
+            <tr><td class="math">(x−2)(x+5)</td><td></td></tr>
+            <tr><td class="math">(2x+1)(x−3)</td><td></td></tr>
+            <tr><td class="math">(x+6)(x−6)</td><td></td></tr>
+        </table>
+        <details>
+            <summary>🔍 الحل المفصّل (اضغط)</summary>
+            <div class="solution-body">
+                (x+3)(x+4) = x² + 4x + 3x + 12 = x² + 7x + 12<br>
+                (x−2)(x+5) = x² + 5x − 2x − 10 = x² + 3x − 10<br>
+                (2x+1)(x−3) = 2x² − 6x + x − 3 = 2x² − 5x − 3<br>
+                (x+6)(x−6) = x² − 36 <span class="rtl-note">(فرق مربعين)</span>
+            </div>
+        </details>
     </div>
 
-    <!-- דף נושאים -->
-    <div id="page-topics" class="hidden">
-        <div class="header-bar">
-            <button class="btn btn-back" onclick="goHome()">🏠 ראשי</button>
-            <h2 id="exam-title"></h2>
+    <div class="exercise">
+        <div class="ex-title">تمرين 1.2: تحديد العامل المشترك</div>
+        <div class="ex-instruction">في كل تعبير، حدّد العامل المشترك قبل التحليل:</div>
+        <div class="math-block">
+            3x² + 6x = 3x( __ + __ )<br>
+            5xy − 10y = 5y( __ − __ )<br>
+            x³ − x² = x²( __ − __ )
         </div>
-        <div id="topics-list"></div>
+        <details>
+            <summary>🔍 الحل المفصّل</summary>
+            <div class="solution-body">
+                3x(x + 2)<br>
+                5y(x − 2)<br>
+                x²(x − 1)
+            </div>
+        </details>
     </div>
 
-    <!-- דף שאלות הנושא -->
-    <div id="page-question" class="hidden">
-        <div class="header-bar">
-            <button class="btn btn-back" onclick="backToTopics()">⬅ נושאים</button>
-            <h2 id="topic-title"></h2>
+    <div class="exercise">
+        <div class="ex-title">تمرين 1.3: ثلاثيات الحدود (a = 1) — إكمال جدول</div>
+        <div class="ex-instruction">أكمل التحويل من مجموع إلى حاصل ضرب:</div>
+        <table>
+            <tr><th>كمجموع (كثير حدود)</th><th>كحاصل ضرب (عوامل)</th></tr>
+            <tr><td class="math">x² + 5x + 6</td><td class="math">(x + __)(x + __)</td></tr>
+            <tr><td class="math">x² − 5x + 6</td><td class="math">(x − __)(x − __)</td></tr>
+            <tr><td class="math">x² + x − 6</td><td class="math">(x + __)(x − __)</td></tr>
+            <tr><td class="math">x² − x − 6</td><td class="math">(x − __)(x + __)</td></tr>
+        </table>
+        <details>
+            <summary>🔍 الحل المفصّل</summary>
+            <div class="solution-body">
+                (x+2)(x+3)<br>
+                (x−2)(x−3)<br>
+                (x+3)(x−2)<br>
+                (x−3)(x+2)
+            </div>
+        </details>
+    </div>
+
+    <!-- ===== المستوى المتوسط ===== -->
+    <div class="level-header level-medium">🟠 المستوى المتوسط — التطبيق والربط</div>
+
+    <div class="exercise">
+        <div class="ex-title">تمرين 2.1: معادلات تربيعية (التحقق بالتعويض)</div>
+        <div class="ex-instruction">ادّعت رنا أن حلول المعادلة <span class="math">(x−4)(x+7)=0</span> هي <span class="math">x=4</span> أو <span class="math">x=−7</span>.<br>أ. تحقّق بالتعويض إن كانت رنا محقّة.<br>ب. اشرح كيف حسبت رنا الحلول.</div>
+        <details>
+            <summary>🔍 الحل المفصّل</summary>
+            <div class="solution-body">
+                <span class="rtl-note">أ. التحقق:</span><br>
+                x=4: (4−4)(4+7) = 0·11 = 0 ✓<br>
+                x=−7: (−7−4)(−7+7) = (−11)·0 = 0 ✓<br>
+                <span class="rtl-note">ب. استخدمت رنا القاعدة: حاصل الضرب يساوي صفرًا إذا وفقط إذا كان أحد العوامل على الأقل يساوي صفرًا.</span>
+            </div>
+        </details>
+    </div>
+
+    <div class="exercise">
+        <div class="ex-title">تمرين 2.2: كشف الأخطاء في اختصار الكسور</div>
+        <div class="ex-instruction">حدّد الخطأ في كل مثال واشرح:</div>
+        <div class="math-block">
+            (x²−4)/(x−2) = (x−2)(x+2)/(x−2) = x+2 ❌<br>
+            (3−x)/(x²−9) = −(x−3)/[(x−3)(x+3)] = −1/(x+3) ✅
         </div>
-        <div style="text-align:center; margin-bottom:10px;">
-            <button class="btn btn-nav" onclick="toggleAllAnswers()" id="btn-toggle-all">הצג את כל התשובות 👁️</button>
-        </div>
-        <div id="questions-container"></div>
+        <div class="ex-instruction">السؤال: ما الناقص في المثال الأول؟</div>
+        <details>
+            <summary>🔍 الحل المفصّل</summary>
+            <div class="solution-body">
+                <span class="rtl-note">الناقص هو مجال التعويض! في المثال الأول: x ≠ 2 (لأن المقام لا يمكن أن يساوي صفرًا). الاختصار صحيح فقط عندما x ≠ 2.</span>
+            </div>
+        </details>
+    </div>
+
+    <div class="exercise">
+        <div class="ex-title">تمرين 2.3: صيغ الضرب المختصر — المطابقة والشرح</div>
+        <div class="ex-instruction">طابق كل تعبير في العمود (أ) بالتعبير المساوي له في العمود (ب):</div>
+        <table>
+            <tr><th>العمود (أ)</th><th>العمود (ب)</th></tr>
+            <tr><td class="math">x² + 6x + 9</td><td class="math">(x−3)(x+3)</td></tr>
+            <tr><td class="math">x² − 9</td><td class="math">(x+3)²</td></tr>
+            <tr><td class="math">x² − 6x + 9</td><td class="math">(x−3)²</td></tr>
+        </table>
+        <details>
+            <summary>🔍 الحل المفصّل</summary>
+            <div class="solution-body">
+                x² + 6x + 9 = (x+3)² <span class="rtl-note">(مربع ثنائي حد)</span><br>
+                x² − 9 = (x−3)(x+3) <span class="rtl-note">(فرق مربعين)</span><br>
+                x² − 6x + 9 = (x−3)² <span class="rtl-note">(مربع ثنائي حد)</span>
+            </div>
+        </details>
+    </div>
+
+    <!-- ===== المستوى المتقدم ===== -->
+    <div class="level-header level-advanced">🟣 المستوى المتقدم — التفكير العكسي والإبداع</div>
+
+    <div class="exercise">
+        <div class="ex-title">تمرين 3.1: التفكير العكسي — كتابة معادلة حسب الحلول</div>
+        <div class="ex-instruction">اكتب معادلة تربيعية لكل شرط:</div>
+        <table>
+            <tr><th>الشرط</th><th>معادلة ممكنة</th></tr>
+            <tr><td class="rtl-note" style="direction:rtl;">حلول: x=2 أو x=5</td><td></td></tr>
+            <tr><td class="rtl-note" style="direction:rtl;">حل واحد: x=−3</td><td></td></tr>
+            <tr><td class="rtl-note" style="direction:rtl;">لا حلول حقيقية</td><td></td></tr>
+            <tr><td class="rtl-note" style="direction:rtl;">حلّان حاصل ضربهما موجب</td><td></td></tr>
+            <tr><td class="rtl-note" style="direction:rtl;">حلّان حاصل ضربهما سالب</td><td></td></tr>
+        </table>
+        <details>
+            <summary>🔍 الحل المفصّل</summary>
+            <div class="solution-body">
+                (x−2)(x−5)=0 ⇒ x² − 7x + 10 = 0<br>
+                (x+3)²=0 ⇒ x² + 6x + 9 = 0<br>
+                x² + 1 = 0 <span class="rtl-note">(لكل x حقيقي: x²≥0 إذًا x²+1≥1≠0)</span><br>
+                (x−2)(x−3)=0 ⇒ x² − 5x + 6 = 0 <span class="rtl-note">(الضرب: 2·3=6>0)</span><br>
+                (x+2)(x−3)=0 ⇒ x² − x − 6 = 0 <span class="rtl-note">(الضرب: −2·3=−6<0)</span>
+            </div>
+        </details>
+    </div>
+
+    <div class="exercise">
+        <div class="ex-title">تمرين 3.2: مسألة مساحة ومحيط (فضاء جبري)</div>
+        <div class="ex-instruction">محيط مستطيل 34 سم وطول قطره 13 سم. احسب أطوال أضلاعه.</div>
+        <details>
+            <summary>🔍 الحل المفصّل</summary>
+            <div class="solution-body">
+                <span class="rtl-note">المرحلة 1:</span> نرمز للأضلاع بـ x و y.<br>
+                المحيط: 2(x + y) = 34 ⇒ x + y = 17<br>
+                القطر (فيثاغورس): x² + y² = 13² = 169<br><br>
+                <span class="rtl-note">المرحلة 2:</span> نعوّض y = 17 − x:<br>
+                x² + (17−x)² = 169<br>
+                x² + 289 − 34x + x² = 169<br>
+                2x² − 34x + 120 = 0<br>
+                x² − 17x + 60 = 0<br><br>
+                <span class="rtl-note">المرحلة 3:</span> التحليل: (x−5)(x−12) = 0<br>
+                <span class="rtl-note">الجواب: الأضلاع 5 سم و 12 سم.</span>
+            </div>
+        </details>
+    </div>
+
+    <div class="exercise">
+        <div class="ex-title">تمرين 3.3: المتباينات — حل جبري وبياني</div>
+        <div class="ex-instruction">حلّ المتباينة <span class="math">(x−3)² > 4</span> بطريقتين:<br>أ. بيانيًا &nbsp; ب. جبريًا</div>
+        <details>
+            <summary>🔍 الحل المفصّل</summary>
+            <div class="solution-body">
+                <span class="rtl-note">أ. بيانيًا:</span> القطع المكافئ (x−3)² يكون فوق الخط y=4 عندما x<1 أو x>5.<br><br>
+                <span class="rtl-note">ب. جبريًا:</span><br>
+                (x−3)² > 4 ⇒ |x−3| > 2<br>
+                ⇒ x−3 > 2 &nbsp; أو &nbsp; x−3 < −2<br>
+                ⇒ x > 5 &nbsp; أو &nbsp; x < 1<br>
+                <span class="rtl-note">الجواب النهائي: x ∈ (−∞, 1) ∪ (5, ∞)</span>
+            </div>
+        </details>
     </div>
 
     <footer>
-        הוכן על ידי <strong>Ibraheem Jaffar</strong><br>
+        أُعدّ بواسطة <strong>Ibraheem Jaffar</strong><br>
         <a href="mailto:ibraheem.jaffar@protonmail.com">ibraheem.jaffar@protonmail.com</a>
     </footer>
 </div>
-<script>
-// ===== מאגר שאלות =====
-const DB = {
-    '35571': {
-        name: 'שאלון 35571 (י"א)',
-        topics: [
-            {
-                id: 'short', name: 'שאלות קצרות (חובה)',
-                questions: [
-                    { text: 'פתרו את המשוואה:', math: '3²ˣ − 4·3ˣ + 3 = 0', answer: '3ˣ=1 או 3ˣ=3 → x=0 או x=1' },
-                    { text: 'מצאו את תחום ההגדרה של הפונקציה:', math: 'f(x) = √(x−2) / (x−5)', answer: 'x ≥ 2 וגם x ≠ 5' },
-                    { text: 'פתרו את אי-השוויון:', math: 'x² − 5x + 6 < 0', answer: '2 < x < 3' },
-                    { text: 'נתון log₂x + log₂(x−2) = 3. מצאו x.', math: 'log₂[x(x−2)] = 3', answer: 'x(x−2)=8 → x=4 (x>2)' },
-                    { text: 'מצאו את משוואת הישר העובר דרך (2,−1) ומאונך לישר y = 2x + 3.', math: 'm₁·m₂ = −1', answer: 'y = −½x' },
-                    { text: 'פשטו:', math: '(sin²x + cos²x) / cos x', answer: '1/cos x = sec x' },
-                ]
-            },
-            {
-                id: 'calculus', name: 'חדו"א - חקירת פונקציות ואינטגרלים',
-                questions: [
-                    { text: 'חקרו את הפונקציה ומצאו נקודות קיצון:', math: 'f(x) = x³ − 6x² + 9x', answer: "f'(x)=3x²−12x+9=0 → מקס' (1,4), מינ' (3,0)" },
-                    { text: 'מצאו את נקודת הפיתול של הפונקציה:', math: 'f(x) = x³ − 3x² + 2', answer: "f''(x)=6x−6=0 → נקודת פיתול ב-x=1, (1,0)" },
-                    { text: 'נתונה f(x) = (x²+1)/x. מצאו את הנגזרת:', math: "f(x) = x + 1/x", answer: "f'(x) = 1 − 1/x²" },
-                    { text: 'חשבו את השטח הכלוא בין הפרבולה f(x)=4−x² לציר ה-x:', math: '∫₋₂² (4−x²) dx', answer: '32/3' },
-                    { text: 'מצאו את משוואת המשיק לפונקציה f(x)=x³ בנקודה (1,1):', math: "f'(x)=3x², f'(1)=3", answer: 'y = 3x − 2' },
-                    { text: 'נתונה f(x)=√x. חשבו את השטח בין הפונקציה לציר x מ-0 עד 4:', math: '∫₀⁴ √x dx', answer: '16/3' },
-                    { text: 'מצאו את תחומי העלייה והירידה:', math: 'f(x) = x³ − 12x', answer: "f'=3x²−12: עולה |x|>2, יורדת −2<x<2" },
-                ]
-            },
-            {
-                id: 'sequences', name: 'סדרות ואינדוקציה',
-                questions: [
-                    { text: 'בסדרה חשבונית a₃=7 ו-a₇=19. מצאו את a₁ ואת d.', math: 'a₇ − a₃ = 4d', answer: 'd=3, a₁=1' },
-                    { text: 'סכום n האיברים הראשונים בסדרה חשבונית הוא Sₙ=3n²+2n. מצאו את a₁.', math: 'a₁ = S₁', answer: 'a₁ = 5' },
-                    { text: 'בסדרה הנדסית a₂=6 ו-a₅=48. מצאו את המנה q.', math: 'a₅/a₂ = q³', answer: 'q³=8 → q=2' },
-                    { text: 'סכום סדרה הנדסית אינסופית הוא 12, והאיבר הראשון 8. מצאו q.', math: 'S = a₁/(1−q)', answer: '12=8/(1−q) → q=1/3' },
-                    { text: 'הוכיחו באינדוקציה:', math: '1²+2²+...+n² = n(n+1)(2n+1)/6', answer: 'בסיס n=1 ✓, הנחה, הוכחת צעד n→n+1' },
-                    { text: 'סדרה מוגדרת: aₙ = 2ⁿ − 1. הוכיחו שסכום n האיברים הוא 2ⁿ⁺¹ − n − 2.', math: 'Σ(2ᵏ−1)', answer: 'אינדוקציה או סכום הנדסי מינוס n' },
-                ]
-            },
-            {
-                id: 'geometry', name: 'גיאומטריה וטריגונומטריה במישור',
-                questions: [
-                    { text: 'במשולש ABC: AB=8, AC=6 והזווית A=60°. מצאו את BC (משפט הקוסינוסים).', math: 'BC² = 8²+6²−2·8·6·cos60°', answer: 'BC² = 52 → BC = 2√13' },
-                    { text: 'שני משולשים דומים ביחס 2:5. שטח הגדול 100 סמ"ר. מצאו שטח הקטן.', math: 'יחס שטחים = (2/5)²', answer: '100·4/25 = 16 סמ"ר' },
-                    { text: 'במעגל שרדיוסו 10, זווית מרכזית 60°. מצאו את אורך המיתר.', math: 'מיתר = 2r·sin(α/2)', answer: '2·10·sin30° = 10' },
-                    { text: 'במשולש ABC: זווית A=90°, AB=5, AC=12. מצאו את sin(B).', math: 'BC=13, sin B = AC/BC', answer: 'sin B = 12/13' },
-                    { text: 'משיק ומיתר: הזווית בין המשיק למיתר היא 40°. מצאו את הזווית ההיקפית שעל הקשת.', math: 'זווית משיק-מיתר = היקפית', answer: '40°' },
-                ]
-            },
-            {
-                id: 'probability', name: 'הסתברות',
-                questions: [
-                    { text: 'בכד 5 כדורים אדומים ו-3 לבנים. מוציאים 2 ללא החזרה. מה ההסתברות ששניהם אדומים?', math: '(5/8)·(4/7)', answer: '20/56 = 5/14' },
-                    { text: 'P(A)=0.6, P(B)=0.5, P(A∩B)=0.3. האם A ו-B בלתי תלויים?', math: 'P(A)·P(B) =? P(A∩B)', answer: '0.6·0.5=0.3 ✓ כן, בלתי תלויים' },
-                    { text: 'הסתברות מותנית: P(A)=0.4, P(B|A)=0.5. מצאו P(A∩B).', math: 'P(A∩B) = P(A)·P(B|A)', answer: '0.4·0.5 = 0.2' },
-                    { text: 'ניסוי ברנולי: זורקים מטבע 6 פעמים. מה ההסתברות לקבל בדיוק 4 "עץ"?', math: 'C(6,4)·(0.5)⁶', answer: '15/64 ≈ 0.234' },
-                    { text: 'בבחינה 3 שאלות אמריקאיות עם 4 תשובות. מנחשים. מה ההסתברות לצדוק בכולן?', math: '(1/4)³', answer: '1/64' },
-                ]
-            },
-        ]
-    },
-    '35572': {
-        name: 'שאלון 35572 (י"ב)',
-        topics: [
-            {
-                id: 'analytic', name: 'גיאומטריה אנליטית',
-                questions: [
-                    { text: 'מצאו את מרכז ורדיוס המעגל:', math: 'x² + y² − 6x + 8y − 11 = 0', answer: 'מרכז (3, −4), רדיוס √36 = 6' },
-                    { text: 'מצאו את משוואת המשיק למעגל x²+y²=25 בנקודה (3,4):', math: 'המשיק מאונך לרדיוס', answer: '3x + 4y = 25' },
-                    { text: 'נתונה הפרבולה y² = 12x. מצאו את המוקד ואת המדריך.', math: 'y² = 4px, 4p = 12', answer: 'מוקד (3,0), מדריך x = −3' },
-                    { text: 'מצאו את מוקדי האליפסה ואת האקסצנטריות:', math: 'x²/25 + y²/16 = 1', answer: 'c=3, מוקדים (±3,0), e = 3/5' },
-                    { text: 'מצאו את האסימפטוטות והמוקדים של ההיפרבולה:', math: 'x²/9 − y²/16 = 1', answer: 'אסימפטוטות y=±(4/3)x, c=5, מוקדים (±5,0)' },
-                    { text: 'מצאו את נקודות החיתוך של הישר y=x+1 עם המעגל x²+y²=25:', math: 'הצבה x²+(x+1)²=25', answer: '(3,4) ו-(−4,−3)' },
-                ]
-            },
-            {
-                id: 'vectors', name: 'וקטורים וטריגונומטריה במרחב',
-                questions: [
-                    { text: 'נתונים u=(1,2,2) ו-v=(2,−1,2). מצאו את הזווית ביניהם.', math: 'cosθ = (u·v)/(|u||v|)', answer: 'u·v=4, |u|=|v|=3 → cosθ=4/9' },
-                    { text: 'בדקו אם הווקטורים u=(1,2,3) ו-v=(2,4,6) מקבילים.', math: 'v = k·u ?', answer: 'v = 2u → כן, מקבילים' },
-                    { text: 'נתונה תיבה במידות 3×4×12. מצאו את אורך האלכסון הראשי.', math: 'd = √(3²+4²+12²)', answer: 'd = 13' },
-                    { text: 'חרוט שרדיוס בסיסו 6 וגובהו 8. מצאו את שטח המעטפת.', math: 'שיפוע l=√(r²+h²)=10, מעטפת=πrl', answer: '60π' },
-                    { text: 'כדור חסום בגליל (אותו רדיוס וגובה=קוטר). יחס הנפחים כדור:גליל?', math: 'V_כדור=(4/3)πr³, V_גליל=2πr³', answer: '2:3' },
-                    { text: 'מצאו וקטור יחידה בכיוון v=(3,0,4):', math: 'v/|v|, |v|=5', answer: '(3/5, 0, 4/5)' },
-                ]
-            },
-            {
-                id: 'complex', name: 'מספרים מרוכבים',
-                questions: [
-                    { text: 'חשבו וכתבו בצורה אלגברית:', math: '(3 + 2i)/(1 − i)', answer: 'הכפלה בצמוד: (1+5i)/2 = 0.5 + 2.5i' },
-                    { text: 'מצאו את הצורה הטריגונומטרית של z = 1 + i.', math: 'r=√2, θ=45°', answer: '√2(cos45° + i·sin45°)' },
-                    { text: 'לפי דה-מואבר חשבו:', math: '(1 + i)⁸', answer: '(√2)⁸·(cos360°+i sin360°) = 16' },
-                    { text: 'פתרו את המשוואה במרוכבים:', math: 'z² − 4z + 13 = 0', answer: 'z = 2 ± 3i' },
-                    { text: 'מצאו את כל השורשים:', math: 'z³ = 8', answer: 'z=2, z=−1±i√3' },
-                    { text: 'נתון |z|=5 ו-z על הציר המדומה החיובי. מצאו z.', math: 'z = 0 + bi, b>0', answer: 'z = 5i' },
-                ]
-            },
-            {
-                id: 'adv_calculus', name: 'חדו"א מתקדם (מעריכי ולוגריתמי)',
-                questions: [
-                    { text: 'מצאו את הנגזרת:', math: 'f(x) = x²·eˣ', answer: "f'(x) = eˣ(x² + 2x) = xeˣ(x+2)" },
-                    { text: 'מצאו את הנגזרת:', math: 'f(x) = ln(x)/x', answer: "f'(x) = (1 − ln x)/x²" },
-                    { text: 'חקרו את הפונקציה ומצאו קיצון:', math: 'f(x) = x·e⁻ˣ', answer: "f'=e⁻ˣ(1−x)=0 → מקסימום (1, 1/e)" },
-                    { text: 'חשבו את האינטגרל:', math: '∫ (1/x) dx', answer: 'ln|x| + C' },
-                    { text: 'בעיית דעיכה: חומר רדיואקטיבי N(t)=N₀·e⁻⁰·¹ᵗ. אחרי כמה זמן יישאר חצי?', math: '0.5 = e⁻⁰·¹ᵗ', answer: 't = ln2/0.1 ≈ 6.93' },
-                    { text: 'פתרו את המשוואה:', math: 'e²ˣ − 5eˣ + 6 = 0', answer: 'eˣ=2 או eˣ=3 → x=ln2 או x=ln3' },
-                    { text: 'מצאו את השטח בין f(x)=eˣ לציר x בתחום [0,1]:', math: '∫₀¹ eˣ dx', answer: 'e − 1 ≈ 1.718' },
-                ]
-            },
-        ]
-    }
-};
-
-// ===== ניווט ולוגיקה =====
-let currentExam = '';
-let currentTopic = null;
-let currentQIdx = 0;
-
-function showPage(id) {
-    document.querySelectorAll('[id^="page-"]').forEach(p => p.classList.add('hidden'));
-    document.getElementById(id).classList.remove('hidden');
-}
-
-function goHome() { showPage('page-home'); }
-
-function showExam(examId) {
-    currentExam = examId;
-    const exam = DB[examId];
-    document.getElementById('exam-title').textContent = exam.name;
-    const list = document.getElementById('topics-list');
-    list.innerHTML = '';
-    exam.topics.forEach((t, i) => {
-        list.innerHTML += `<button class="btn btn-topic" onclick="openTopic(${i})">
-            ${t.name} <span class="count">${t.questions.length} שאלות</span></button>`;
-    });
-    showPage('page-topics');
-}
-
-function backToTopics() { showExam(currentExam); }
-
-function openTopic(idx) {
-    currentTopic = DB[currentExam].topics[idx];
-    document.getElementById('topic-title').textContent = currentTopic.name;
-    const container = document.getElementById('questions-container');
-    container.innerHTML = '';
-    currentTopic.questions.forEach((q, i) => {
-        const mathHtml = q.math ? `<div class="q-math">${q.math}</div>` : '';
-        container.innerHTML += `
-            <div class="q-item">
-                <div class="q-head">
-                    <div class="q-num">${i + 1}</div>
-                    <div class="q-body">
-                        <div class="q-text">${q.text}</div>
-                        ${mathHtml}
-                    </div>
-                    <button class="btn btn-show" id="btn-show-${i}" onclick="toggleAnswer(${i})">הצג תשובה 👁️</button>
-                </div>
-                <div class="answer-box hidden" id="answer-box-${i}">
-                    <div class="answer-label">תשובה:</div>
-                    <div>${q.answer}</div>
-                </div>
-            </div>`;
-    });
-    document.getElementById('btn-toggle-all').textContent = 'הצג את כל התשובות 👁️';
-    showPage('page-question');
-    window.scrollTo(0, 0);
-}
-
-function toggleAnswer(i) {
-    const box = document.getElementById('answer-box-' + i);
-    const btn = document.getElementById('btn-show-' + i);
-    if (box.classList.contains('hidden')) {
-        box.classList.remove('hidden');
-        btn.textContent = 'הסתר 🙈';
-    } else {
-        box.classList.add('hidden');
-        btn.textContent = 'הצג תשובה 👁️';
-    }
-}
-
-function toggleAllAnswers() {
-    const btn = document.getElementById('btn-toggle-all');
-    const showAll = btn.textContent.includes('הצג');
-    currentTopic.questions.forEach((q, i) => {
-        const box = document.getElementById('answer-box-' + i);
-        const sbtn = document.getElementById('btn-show-' + i);
-        if (showAll) {
-            box.classList.remove('hidden');
-            sbtn.textContent = 'הסתר 🙈';
-        } else {
-            box.classList.add('hidden');
-            sbtn.textContent = 'הצג תשובה 👁️';
-        }
-    });
-    btn.textContent = showAll ? 'הסתר את כל התשובות 🙈' : 'הצג את כל התשובות 👁️';
-}
-</script>
 </body>
 </html>
