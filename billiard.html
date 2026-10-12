@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طاولة البلياردو - مسألة تفكير</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+            direction: rtl;
+            background: radial-gradient(circle at top right, #1e3a5f 0%, #0b1120 55%);
+            background-attachment: fixed;
+            color: #e2e8f0;
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        h1 {
+            text-align: center; font-size: 28px; margin: 10px 0;
+            background: linear-gradient(90deg, #38bdf8, #22d3ee, #a78bfa);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .back-btn {
+            background: rgba(148,163,184,0.1);
+            border: 1px solid rgba(148,163,184,0.25);
+            color: #e2e8f0; padding: 10px 18px; border-radius: 12px;
+            cursor: pointer; font-family: inherit; font-size: 15px;
+            text-decoration: none; display: inline-block; margin-bottom: 10px;
+        }
+        .card {
+            background: linear-gradient(145deg, #15223b, #0f1a2e);
+            border: 1px solid rgba(148,163,184,0.12);
+            border-radius: 16px; padding: 20px; margin: 15px 0;
+        }
+        .question-text { font-size: 17px; line-height: 1.9; }
+        .controls {
+            display: flex; flex-wrap: wrap; gap: 15px;
+            align-items: center; justify-content: center;
+            margin: 18px 0;
+        }
+        .ctrl-group { display: flex; align-items: center; gap: 8px; }
+        .ctrl-group label { font-size: 15px; color: #94a3b8; }
+        input[type="number"] {
+            width: 70px; padding: 8px; border-radius: 8px;
+            border: 1px solid #38bdf8; background: #0d1b24;
+            color: #fff; text-align: center; font-size: 16px; direction: ltr;
+        }
+        button.action {
+            background: linear-gradient(90deg, #0ea5e9, #06b6d4);
+            color: white; border: none; padding: 10px 22px;
+            border-radius: 12px; cursor: pointer; font-family: inherit;
+            font-size: 15px; transition: all 0.2s;
+        }
+        button.action:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(14,165,233,0.4); }
+        button.action.reset { background: linear-gradient(90deg, #64748b, #475569); }
+        canvas {
+            display: block; margin: 15px auto;
+            background: #0a3d2e;
+            border: 4px solid #8b5a2b;
+            border-radius: 6px;
+            max-width: 100%;
+        }
+        .info-bar {
+            text-align: center; font-size: 16px; margin: 10px 0;
+            color: #22d3ee; direction: ltr;
+        }
+        details { margin-top: 14px; border-radius: 12px; overflow: hidden; }
+        summary {
+            cursor: pointer; padding: 14px 18px;
+            background: rgba(167,139,250,0.14);
+            border: 1px solid rgba(167,139,250,0.3);
+            border-radius: 12px; color: #c4b5fd; font-weight: bold;
+            list-style: none; user-select: none;
+        }
+        summary::-webkit-details-marker { display: none; }
+        .proof {
+            padding: 16px 20px; background: rgba(167,139,250,0.06);
+            border: 1px solid rgba(167,139,250,0.2); border-top: none;
+            border-radius: 0 0 12px 12px; font-size: 16px; line-height: 2;
+        }
+        .proof .formula { direction: ltr; display: inline-block; background: rgba(2,6,23,0.5); padding: 2px 8px; border-radius: 5px; }
+        footer { text-align: center; margin: 40px 0 20px; color: #64748b; font-size: 13px; }
+        footer a { color: #22d3ee; text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-btn">⬅ العودة</a>
+    <h1>🎱 مسألة طاولة البلياردو</h1>
+
+    <div class="card">
+        <div class="question-text">
+            في طاولة بلياردو عرضها وطولها عددان طبيعيان، تنطلق كرة من الزاوية السفلية اليسرى بزاوية 45°.
+            عند كل اصطدام بحائط ترتدّ بزاوية 45° (بدون احتكاك). ينتهي اللعب عندما تصل الكرة إلى إحدى الزوايا.
+            <br><br>
+            <strong>السؤال: هل ينتهي اللعب بالضرورة؟</strong>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="controls">
+            <div class="ctrl-group">
+                <label>العرض (m):</label>
+                <input type="number" id="width" value="5" min="1" max="12">
+            </div>
+            <div class="ctrl-group">
+                <label>الطول (n):</label>
+                <input type="number" id="height" value="3" min="1" max="12">
+            </div>
+            <button class="action" onclick="startSim()">▶ شغّل</button>
+            <button class="action reset" onclick="resetSim()">↺ إعادة</button>
+        </div>
+        <canvas id="canvas" width="600" height="400"></canvas>
+        <div class="info-bar" id="info"></div>
+    </div>
+
+    <div class="card">
+        <details>
+            <summary>🔍 الحل والبرهان (اضغط)</summary>
+            <div class="proof">
+                <strong>الجواب: نعم، ينتهي اللعب دائمًا — تصل الكرة حتمًا إلى زاوية.</strong><br><br>
+                <strong>فكرة البرهان — طريقة "النشر" (Unfolding):</strong><br>
+                بدلًا من تتبّع ارتدادات الكرة، "ننشر" الطاولة: عند كل اصطداد نعكس الطاولة بدل عكس الكرة.
+                هكذا يتحوّل المسار المرتدّ إلى <strong>خط مستقيم</strong> على شبكة من الطاولات المعكوسة.<br><br>
+                بما أن زاوية الانطلاق 45°، فإن الخط المستقيم له ميل 1، أي يسير على الخط <span class="formula">y = x</span>.<br><br>
+                تقع زوايا الطاولة في النقاط التي يكون فيها <span class="formula">x</span> من مضاعفات <span class="formula">m</span>
+                و<span class="formula">y</span> من مضاعفات <span class="formula">n</span> معًا.<br>
+                الكرة تسير على <span class="formula">y = x</span>، فتصل إلى زاوية عندما:<br>
+                <span class="formula">t = lcm(m, n)</span> &nbsp;(المضاعف المشترك الأصغر).<br><br>
+                وبما أن <span class="formula">m, n</span> أعداد طبيعية، فإن <span class="formula">lcm(m,n)</span> موجود ومنتهٍ دائمًا،
+                لذا تصل الكرة حتمًا إلى زاوية بعد مسافة <span class="formula">lcm(m,n)·√2</span>. ∎<br><br>
+                <strong>حدس إضافي:</strong> عدد الحالات الممكنة (موقع + اتجاه) منتهٍ، لذا لا يمكن أن يستمر المسار للأبد دون تكرار،
+                والتكرار الوحيد الممكن يمرّ عبر زاوية.
+            </div>
+        </details>
+    </div>
+
+    <footer>
+        أُعدّ بواسطة <strong>Ibraheem Jaffar</strong> · <a href="mailto:ibraheem.jaffar@protonmail.com">ibraheem.jaffar@protonmail.com</a>
+    </footer>
+</div>
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let anim = null;
+
+function gcd(a, b) { while (b) { [a, b] = [b, a % b]; } return a; }
+function lcm(a, b) { return a * b / gcd(a, b); }
+
+function getLayout(m, n) {
+    // fit the m x n table into the canvas with margin
+    const margin = 30;
+    const availW = canvas.width - 2 * margin;
+    const availH = canvas.height - 2 * margin;
+    const cell = Math.min(availW / m, availH / n);
+    const w = cell * m, h = cell * n;
+    const ox = (canvas.width - w) / 2;
+    const oy = (canvas.height - h) / 2;
+    return { cell, ox, oy, w, h };
+}
+
+function drawTable(m, n, layout) {
+    const { cell, ox, oy, w, h } = layout;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= m; i++) {
+        ctx.beginPath(); ctx.moveTo(ox + i*cell, oy); ctx.lineTo(ox + i*cell, oy + h); ctx.stroke();
+    }
+    for (let j = 0; j <= n; j++) {
+        ctx.beginPath(); ctx.moveTo(ox, oy + j*cell); ctx.lineTo(ox + w, oy + j*cell); ctx.stroke();
+    }
+    // border
+    ctx.strokeStyle = '#d4a574';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(ox, oy, w, h);
+    // corner pockets
+    const corners = [[0,0],[m,0],[0,n],[m,n]];
+    ctx.fillStyle = '#111';
+    corners.forEach(([cx, cy]) => {
+        ctx.beginPath();
+        ctx.arc(ox + cx*cell, oy + cy*cell, 7, 0, 2*Math.PI);
+        ctx.fill();
+    });
+}
+
+// Compute the path of the ball in table-grid coordinates (unit = cell).
+// Ball starts at (0,0) going direction (+1,+1), bounces, ends at a corner.
+function computePath(m, n) {
+    const pts = [[0, 0]];
+    let x = 0, y = 0, dx = 1, dy = 1;
+    let safety = 0;
+    const maxSteps = 4 * (m + n) + 10;
+    while (safety++ < maxSteps) {
+        // distance to next vertical wall
+        const tx = dx > 0 ? (m - x) : x;
+        const ty = dy > 0 ? (n - y) : y;
+        const t = Math.min(tx, ty);
+        x += dx * t;
+        y += dy * t;
+        // round to avoid float drift
+        x = Math.round(x); y = Math.round(y);
+        pts.push([x, y]);
+        const atCornerX = (x === 0 || x === m);
+        const atCornerY = (y === 0 || y === n);
+        if (atCornerX && atCornerY) break; // reached a corner
+        if (atCornerX) dx = -dx;
+        if (atCornerY) dy = -dy;
+    }
+    return pts;
+}
+
+function startSim() {
+    if (anim) cancelAnimationFrame(anim);
+    const m = Math.max(1, Math.min(12, parseInt(document.getElementById('width').value) || 1));
+    const n = Math.max(1, Math.min(12, parseInt(document.getElementById('height').value) || 1));
+    const layout = getLayout(m, n);
+    const path = computePath(m, n);
+    const L = lcm(m, n);
+    const bounces = path.length - 2; // excluding start and end corner
+    document.getElementById('info').textContent =
+        `lcm(${m}, ${n}) = ${L}  |  bounces: ${Math.max(0,bounces)}  |  ✅ reached a corner`;
+
+    // animate along path
+    let seg = 0;      // current segment index
+    let segT = 0;     // progress 0..1 within segment
+    const speed = 0.04; // progress per frame
+
+    function toPx(pt) {
+        return [layout.ox + pt[0]*layout.cell, layout.oy + pt[1]*layout.cell];
+    }
+
+    const traced = []; // px points already drawn
+
+    function frame() {
+        drawTable(m, n, layout);
+        // draw traced path
+        ctx.strokeStyle = '#fbbf24';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        const start = toPx(path[0]);
+        ctx.moveTo(start[0], start[1]);
+        for (let i = 1; i <= seg; i++) {
+            const p = toPx(path[i]); ctx.lineTo(p[0], p[1]);
+        }
+        // partial current segment
+        const a = toPx(path[seg]);
+        const b = toPx(path[seg + 1]);
+        const curX = a[0] + (b[0]-a[0])*segT;
+        const curY = a[1] + (b[1]-a[1])*segT;
+        ctx.lineTo(curX, curY);
+        ctx.stroke();
+        // ball
+        ctx.fillStyle = '#fff';
+        ctx.beginPath(); ctx.arc(curX, curY, 7, 0, 2*Math.PI); ctx.fill();
+        ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2; ctx.stroke();
+
+        segT += speed;
+        if (segT >= 1) {
+            segT = 0; seg++;
+            if (seg >= path.length - 1) {
+                // finished - flash final corner
+                const fin = toPx(path[path.length-1]);
+                ctx.fillStyle = '#22c55e';
+                ctx.beginPath(); ctx.arc(fin[0], fin[1], 11, 0, 2*Math.PI); ctx.fill();
+                return;
+            }
+        }
+        anim = requestAnimationFrame(frame);
+    }
+    frame();
+}
+
+function resetSim() {
+    if (anim) cancelAnimationFrame(anim);
+    const m = Math.max(1, Math.min(12, parseInt(document.getElementById('width').value) || 1));
+    const n = Math.max(1, Math.min(12, parseInt(document.getElementById('height').value) || 1));
+    drawTable(m, n, getLayout(m, n));
+    document.getElementById('info').textContent = '';
+}
+
+// initial draw
+resetSim();
+</script>
+</body>
+</html>
