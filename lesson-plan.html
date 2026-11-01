@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مخطط درس: تحويلات القطع المكافئ</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+            direction: rtl; color: #1a202c; background: #fff;
+            line-height: 1.7; font-size: 14px; padding: 12mm;
+        }
+        h1 { text-align: center; font-size: 22px; color: #1e40af; margin-bottom: 4px; }
+        .meta { text-align: center; color: #555; margin-bottom: 18px; font-size: 13px; }
+        h2 {
+            font-size: 17px; color: #fff; background: #2563eb;
+            padding: 7px 14px; border-radius: 6px; margin: 22px 0 10px;
+        }
+        h3 { font-size: 15px; color: #1e40af; margin: 14px 0 6px; border-right: 3px solid #2563eb; padding-right: 10px; }
+        .box {
+            border: 1px solid #cbd5e1; border-radius: 8px;
+            padding: 12px 16px; margin: 10px 0; background: #f8fafc;
+        }
+        .term { color: #7c3aed; font-weight: bold; }
+        .heb { color: #0369a1; font-size: 0.92em; }
+        table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+        th, td { border: 1px solid #94a3b8; padding: 8px 10px; text-align: right; vertical-align: top; }
+        th { background: #dbeafe; color: #1e3a8a; }
+        .time-col { width: 90px; text-align: center; font-weight: bold; color: #2563eb; }
+        .math { direction: ltr; display: inline-block; unicode-bidi: embed; background: #eef2ff; padding: 1px 7px; border-radius: 4px; font-weight: 500; }
+        .ggb-link {
+            display: inline-block; background: #16a34a; color: #fff;
+            padding: 5px 12px; border-radius: 6px; text-decoration: none;
+            font-size: 13px; margin: 3px 0;
+        }
+        ul, ol { margin: 6px 25px; }
+        li { margin: 4px 0; }
+        .goal { background: #fef9c3; border-right: 4px solid #eab308; padding: 10px 14px; border-radius: 6px; margin: 8px 0; }
+        .tip { background: #dcfce7; border-right: 4px solid #16a34a; padding: 10px 14px; border-radius: 6px; margin: 8px 0; font-size: 13px; }
+        footer { text-align: center; margin-top: 25px; padding-top: 12px; border-top: 1px solid #cbd5e1; color: #666; font-size: 12px; }
+        .print-btn {
+            display: block; margin: 0 auto 18px; padding: 10px 28px;
+            background: #2563eb; color: #fff; border: none; border-radius: 8px;
+            font-size: 15px; cursor: pointer; font-family: inherit;
+        }
+        sub, sup { font-size: 0.75em; }
+        @media print {
+            .print-btn { display: none; }
+            body { padding: 0; font-size: 12px; }
+            @page { margin: 12mm; size: A4; }
+            h2 { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            th, .goal, .tip, .box { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">🖨️ اطبع / احفظ PDF</button>
+
+    <h1>مخطط درس: تحويلات القطع المكافئ (טרנספורמציות של פרבולה)</h1>
+    <div class="meta">
+        الصف العاشر · 4 وحدات &nbsp;|&nbsp; المدة: 90 دقيقة &nbsp;|&nbsp; الموضوع: الجبر، الدوال والمعادلات + GeoGebra
+    </div>
+
+    <h2>🎯 أهداف الدرس (מטרות)</h2>
+    <div class="goal">
+        في نهاية الدرس يكون الطالب قادرًا على:
+        <ul>
+            <li>التعرّف على الدالة الأساسية <span class="math">f(x) = x²</span> (القطع المكافئ / <span class="heb">פרבולה</span>) وخصائصها.</li>
+            <li>ربط التغيير الجبري في التعبير بالتغيير في الرسم البياني (الـ <span class="heb">גרף</span>).</li>
+            <li>تحليل التحويلات الأربعة: الإزاحة (<span class="heb">הזזה</span>)، التمدّد (<span class="heb">מתיחה</span>)، والانعكاس (<span class="heb">שיקוף</span>).</li>
+            <li>استخدام GeoGebra لاستكشاف تأثير المعاملات a, b, c على القطع المكافئ.</li>
+        </ul>
+    </div>
+
+    <h3>المفاهيم والمصطلحات (מושגים)</h3>
+    <div class="box">
+        <table>
+            <tr><th>بالعربية</th><th>بالعبرية (للمعرفة)</th><th>بالرمز</th></tr>
+            <tr><td>قطع مكافئ</td><td class="heb">פרבולה</td><td class="math">f(x)=x²</td></tr>
+            <tr><td>رأس القطع</td><td class="heb">קודקוד</td><td class="math">(p, k)</td></tr>
+            <tr><td>محور التناظر</td><td class="heb">ציר סימטריה</td><td class="math">x = p</td></tr>
+            <tr><td>إزاحة</td><td class="heb">הזזה</td><td class="math">f(x)+k , f(x+b)</td></tr>
+            <tr><td>تمدّد / تقلّص</td><td class="heb">מתיחה / כיווץ</td><td class="math">a·f(x)</td></tr>
+            <tr><td>انعكاس</td><td class="heb">שיקוף</td><td class="math">−f(x) , f(−x)</td></tr>
+        </table>
+    </div>
+
+    <h2>🔗 روابط GeoGebra الجاهزة</h2>
+    <div class="box">
+        <p>يُنصح باستخدام أداة الشرائح (<span class="heb">סליידרים</span>) التفاعلية:</p>
+        <ul>
+            <li>
+                <strong>الصيغة العامة للرأس (vertex form)</strong> <span class="math">f(x) = a(x − h)² + k</span> مع شرائح a, h, k:<br>
+                <a class="ggb-link" href="https://www.geogebra.org/m/WwaynXpf" target="_blank">🔗 Quadratic Functions (Transformations and Roots)</a>
+            </li>
+            <li>
+                <strong>تحويلات الدوال التربيعية</strong> (إزاحة، تمدّد، انعكاس):<br>
+                <a class="ggb-link" href="https://www.geogebra.org/m/f7naKJ3m" target="_blank">🔗 Transformations of Quadratic Functions</a>
+            </li>
+            <li>
+                <strong>استكشاف القطع المكافئ:</strong><br>
+                <a class="ggb-link" href="https://www.geogebra.org/m/HDa58h2g" target="_blank">🔗 Manipulating Parabolas</a>
+            </li>
+            <li>
+                <strong>إنشاء ذاتي (موصى به):</strong> افتح
+                <a class="ggb-link" href="https://www.geogebra.org/graphing" target="_blank">🔗 GeoGebra Graphing Calculator</a>
+                واكتب: <span class="math">f(x)=x^2</span> ثم <span class="math">g(x)=a*(x-h)^2+k</span> وأنشئ شرائح لـ a, h, k.
+            </li>
+        </ul>
+        <div class="tip">
+            💡 نصيحة: اطلب من الطلاب تحريك كل شريحة على حدة ومراقبة <strong>ماذا يتغيّر في الرسم</strong> قبل إعطاء القاعدة الجبرية. (الاكتشاف قبل القاعدة)
+        </div>
+    </div>
+
+    <h2>⏱️ مجرى الدرس (מהלך השיעור) — 90 دقيقة</h2>
+    <table>
+        <tr><th class="time-col">الوقت</th><th>النشاط</th><th>الهدف / ملاحظات</th></tr>
+        <tr>
+            <td class="time-col">0–10 د</td>
+            <td><strong>افتتاحية (פתיחה):</strong> مراجعة سريعة للدالة <span class="math">f(x)=x²</span>. رسمها بجدول قيم، تحديد الرأس <span class="math">(0,0)</span> ومحور التناظر <span class="math">x=0</span>.</td>
+            <td>تنشيط معرفة سابقة، توحيد نقطة البداية.</td>
+        </tr>
+        <tr>
+            <td class="time-col">10–25 د</td>
+            <td><strong>الإزاحة العمودية (הזזה אנכית):</strong> في GeoGebra نُظهر <span class="math">f(x)=x²+k</span>. نحرّك الشريحة k ونلاحظ صعود/هبوط القطع.<br>استنتاج: <span class="math">+k</span> يُزيح للأعلى، <span class="math">−k</span> للأسفل.</td>
+            <td>ربط <span class="math">+k</span> بإزاحة الرأس عموديًا.</td>
+        </tr>
+        <tr>
+            <td class="time-col">25–40 د</td>
+            <td><strong>الإزاحة الأفقية (הזזה אופקית):</strong> نُظهر <span class="math">f(x)=(x−p)²</span>. نحرّك p.<br>تنبيه مهم: <span class="math">(x−p)</span> يُزيح <strong>لليمين</strong> بمقدار p (عكس الحدس!).</td>
+            <td>معالجة التصوّر الخاطئ الشائع حول إشارة p.</td>
+        </tr>
+        <tr>
+            <td class="time-col">40–55 د</td>
+            <td><strong>التمدّد والانعكاس (מתיחה ושיקוף):</strong> نُظهر <span class="math">f(x)=a·x²</span>. نحرّك a.<br>• <span class="math">a>1</span>: تضيّق (تمدّد عمودي)<br>• <span class="math">0<a<1</span>: تتّسع<br>• <span class="math">a<0</span>: انعكاس حول محور x (<span class="heb">שיקוף</span>).</td>
+            <td>فهم دور المعامل a في الشكل والاتجاه.</td>
+        </tr>
+        <tr>
+            <td class="time-col">55–75 د</td>
+            <td><strong>عمل في أزواج (עבודה בזוגות):</strong> الطلاب يفتحون GeoGebra ويبنون <span class="math">g(x)=a(x−p)²+k</span>، ثم يحلّون ورقة العمل (تمارين الربط أدناه).</td>
+            <td>تطبيق مستقل، ترسيخ العلاقة جبر↔رسم.</td>
+        </tr>
+        <tr>
+            <td class="time-col">75–85 د</td>
+            <td><strong>تلخيص ونقاش (סיכום):</strong> جدول تلخيصي لكل تحويل. مناقشة: "كيف أحوّل <span class="math">x²</span> إلى <span class="math">(x−3)²+2</span> خطوة بخطوة؟"</td>
+            <td>تثبيت القاعدة العامة وربط التحويلات.</td>
+        </tr>
+        <tr>
+            <td class="time-col">85–90 د</td>
+            <td><strong>مهمة بيتية (שיעורי בית):</strong> توزيع التمارين التالية.</td>
+            <td>تقييم ومتابعة.</td>
+        </tr>
+    </table>
+
+    <h2>📋 جدول التلخيص (סיכום טרנספורמציות)</h2>
+    <table>
+        <tr><th>التغيير الجبري</th><th>التأثير على الرسم</th><th>بالعبرية</th></tr>
+        <tr><td class="math">f(x) + k</td><td>إزاحة عمودية للأعلى بمقدار k</td><td class="heb">הזזה כלפי מעלה</td></tr>
+        <tr><td class="math">f(x) − k</td><td>إزاحة عمودية للأسفل</td><td class="heb">הזזה כלפי מטה</td></tr>
+        <tr><td class="math">f(x − p)</td><td>إزاحة أفقية لليمين بمقدار p</td><td class="heb">הזזה ימינה</td></tr>
+        <tr><td class="math">f(x + p)</td><td>إزاحة أفقية لليسار</td><td class="heb">הזזה שמאלה</td></tr>
+        <tr><td class="math">a·f(x), &nbsp;a>1</td><td>تمدّد عمودي (أضيق)</td><td class="heb">מתיחה</td></tr>
+        <tr><td class="math">a·f(x), 0<a<1</td><td>تقلّص (أوسع)</td><td class="heb">כיווץ</td></tr>
+        <tr><td class="math">−f(x)</td><td>انعكاس حول محور x</td><td class="heb">שיקוף סביב ציר x</td></tr>
+        <tr><td class="math">f(−x)</td><td>انعكاس حول محور y</td><td class="heb">שיקוף סביב ציר y</td></tr>
+    </table>
+
+    <h2>✏️ ورقة عمل وتمارين (תרגילים)</h2>
+
+    <h3>الجزء الأول: ربط جبري ↔ بياني</h3>
+    <div class="box">
+        <ol>
+            <li>اكتب رأس القطع ومحور تناظره لكل دالة:
+                <ul>
+                    <li><span class="math">f(x) = x² + 3</span> &nbsp;→ الرأس ___ ، المحور ___</li>
+                    <li><span class="math">f(x) = (x − 2)²</span> &nbsp;→ الرأس ___ ، المحور ___</li>
+                    <li><span class="math">f(x) = (x + 1)² − 4</span> &nbsp;→ الرأس ___ ، المحور ___</li>
+                </ul>
+            </li>
+            <li>صِف سلسلة التحويلات التي تحوّل <span class="math">f(x)=x²</span> إلى:
+                <ul>
+                    <li><span class="math">g(x) = (x − 3)² + 2</span></li>
+                    <li><span class="math">h(x) = −2x²</span></li>
+                    <li><span class="math">k(x) = −(x + 1)² − 5</span></li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <h3>الجزء الثاني: تقنيات جبرية (טכניקות אלגבריות)</h3>
+    <div class="box">
+        <ol>
+            <li>حوّل إلى صيغة الرأس بإكمال المربّع (<span class="heb">השלמה לריבוע</span>):
+                <ul>
+                    <li><span class="math">f(x) = x² + 6x + 5</span></li>
+                    <li><span class="math">f(x) = x² − 4x + 1</span></li>
+                </ul>
+            </li>
+            <li>جد نقاط تقاطع القطع <span class="math">f(x) = x² − 5x + 6</span> مع محور x (الأصفار / <span class="heb">אפסים</span>).</li>
+            <li>جد نقطة تقاطع القطع مع محور y.</li>
+        </ol>
+    </div>
+
+    <h3>الجزء الثالث: تحدٍّ (للمتقدّمين)</h3>
+    <div class="box">
+        <ol>
+            <li>قطع مكافئ رأسه <span class="math">(2, −3)</span> ويمرّ بالنقطة <span class="math">(0, 1)</span>. جد معادلته بصيغة <span class="math">a(x−p)²+k</span>.</li>
+            <li>في GeoGebra: ابنِ القطعين <span class="math">f(x)=x²</span> و <span class="math">g(x)=(x−4)²</span>. ما إحداثيات نقطة تقاطعهما؟ تحقّق جبريًا.</li>
+        </ol>
+    </div>
+
+    <h3>🔑 الحلول المختصرة (للمعلّم)</h3>
+    <div class="tip">
+        <strong>الجزء 1.1:</strong> (0,3),x=0 · (2,0),x=2 · (−1,−4),x=−1<br>
+        <strong>الجزء 1.2:</strong> إزاحة يمين 3 + أعلى 2 · تمدّد ×2 + انعكاس حول x · انعكاس + يسار 1 + أسفل 5<br>
+        <strong>الجزء 2.1:</strong> (x+3)²−4 · (x−2)²−3<br>
+        <strong>الجزء 2.2:</strong> الأصفار x=2, x=3 · <strong>2.3:</strong> تقاطع محور y عند (0,6)<br>
+        <strong>الجزء 3.1:</strong> a=1 → <span class="math">f(x)=(x−2)²−3</span> (تحقّق: f(0)=4−3=1 ✓)<br>
+        <strong>الجزء 3.2:</strong> x²=(x−4)² → x=2، النقطة (2,4)
+    </div>
+
+    <footer>
+        أُعدّ بواسطة <strong>Ibraheem Jaffar</strong> · ibraheem.jaffar@protonmail.com
+    </footer>
+</body>
+</html>
