@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورقة عمل: القطع المكافئ</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+            direction: rtl;
+            background: radial-gradient(circle at top right, #1e3a5f 0%, #0b1120 55%);
+            background-attachment: fixed;
+            color: #e2e8f0; min-height: 100vh; line-height: 1.7;
+        }
+        .container { max-width: 950px; margin: 0 auto; padding: 20px; }
+        h1 {
+            text-align: center; font-size: 26px; margin: 10px 0;
+            background: linear-gradient(90deg,#38bdf8,#22d3ee,#a78bfa);
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .subtitle { text-align:center; color:#94a3b8; margin-bottom:15px; }
+        .top-links { text-align:center; margin-bottom:15px; }
+        .lnk {
+            display:inline-block; margin:5px; padding:9px 18px; border-radius:10px;
+            text-decoration:none; font-size:14px;
+        }
+        .lnk.back { background:rgba(148,163,184,0.12); border:1px solid rgba(148,163,184,0.25); color:#e2e8f0; }
+        .lnk.print { background:rgba(37,99,235,0.15); border:1px solid rgba(37,99,235,0.35); color:#93c5fd; }
+        .exercise {
+            background: linear-gradient(145deg,#15223b,#0f1a2e);
+            border:1px solid rgba(148,163,184,0.12);
+            border-radius:16px; padding:22px 24px; margin:16px 0; position:relative;
+        }
+        .ex-num {
+            position:absolute; top:-14px; right:22px; width:36px; height:36px;
+            background:linear-gradient(135deg,#38bdf8,#22d3ee); border-radius:50%;
+            display:flex; align-items:center; justify-content:center;
+            font-weight:bold; color:#0b1120; font-size:16px;
+            box-shadow:0 4px 12px rgba(56,189,248,0.4);
+        }
+        .ex-title { font-size:17px; color:#22d3ee; margin-bottom:10px; font-weight:bold; }
+        .ex-q { font-size:16px; margin:6px 0; }
+        .math { direction:ltr; display:inline-block; unicode-bidi:embed; background:rgba(2,6,23,0.5); padding:1px 7px; border-radius:4px; font-weight:500; }
+        .graph-wrap { text-align:center; margin:14px 0; }
+        svg { background:#0a1420; border:1px solid rgba(148,163,184,0.2); border-radius:10px; max-width:100%; }
+        ul { margin:8px 25px; } li { margin:5px 0; }
+        details { margin-top:14px; border-radius:12px; overflow:hidden; }
+        summary {
+            cursor:pointer; padding:12px 18px; background:rgba(34,197,94,0.12);
+            border:1px solid rgba(34,197,94,0.25); border-radius:12px;
+            color:#4ade80; font-weight:bold; list-style:none; user-select:none;
+        }
+        summary::-webkit-details-marker { display:none; }
+        .sol { padding:16px 20px; background:rgba(34,197,94,0.06); border:1px solid rgba(34,197,94,0.2); border-top:none; border-radius:0 0 12px 12px; font-size:15px; line-height:2; }
+        .sol .m { direction:ltr; display:inline-block; }
+        footer { text-align:center; margin:40px 0 20px; color:#64748b; font-size:13px; }
+        footer a { color:#22d3ee; text-decoration:none; }
+        @media print {
+            body { background:#fff; color:#000; }
+            .top-links, summary { display:none; }
+            .sol { display:block !important; background:#f5f5f5; color:#000; border-color:#999; }
+            details[open] .sol, details .sol { display:block; }
+            .exercise { border:1px solid #999; background:#fff; page-break-inside:avoid; }
+            svg { background:#fff; }
+            @page { margin:12mm; size:A4; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📈 ورقة عمل: القطع المكافئ</h1>
+    <p class="subtitle">مجالات الصعود والهبوط · القيم القصوى · نقاط التقاطع · تأثير a, b, c</p>
+    <div class="top-links">
+        <a href="index.html" class="lnk back">⬅ العودة</a>
+        <a href="#" onclick="window.print();return false;" class="lnk print">🖨️ اطبع / PDF</a>
+    </div>
+
+    <div id="content"></div>
+
+    <footer>
+        أُعدّ بواسطة <strong>Ibraheem Jaffar</strong> · <a href="mailto:ibraheem.jaffar@protonmail.com">ibraheem.jaffar@protonmail.com</a>
+    </footer>
+</div>
+
+<script>
+// ===== رسم القطع المكافئ على SVG =====
+// a,b,c معاملات؛ المجال [xmin,xmax]
+function drawParabola(a, b, c, opts) {
+    opts = opts || {};
+    const W = 300, H = 300, pad = 0;
+    const unit = opts.unit || 20;   // pixels per unit
+    const cx = W/2, cy = H/2;       // origin in pixels
+    function px(x){ return cx + x*unit; }
+    function py(y){ return cy - y*unit; }
+
+    let grid = '';
+    for (let i = -7; i <= 7; i++) {
+        grid += `<line x1="${px(i)}" y1="0" x2="${px(i)}" y2="${H}" stroke="rgba(148,163,184,0.12)" stroke-width="1"/>`;
+        grid += `<line x1="0" y1="${py(i)}" x2="${W}" y2="${py(i)}" stroke="rgba(148,163,184,0.12)" stroke-width="1"/>`;
+    }
+    // axes
+    const axes = `
+        <line x1="0" y1="${cy}" x2="${W}" y2="${cy}" stroke="#94a3b8" stroke-width="1.5"/>
+        <line x1="${cx}" y1="0" x2="${cx}" y2="${H}" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="${W-12}" y="${cy-6}" fill="#94a3b8" font-size="12">x</text>
+        <text x="${cx+6}" y="14" fill="#94a3b8" font-size="12">y</text>`;
+    // tick labels
+    let ticks = '';
+    for (let i = -6; i <= 6; i += 2) {
+        if (i !== 0) {
+            ticks += `<text x="${px(i)-4}" y="${cy+14}" fill="#64748b" font-size="9">${i}</text>`;
+            ticks += `<text x="${cx+5}" y="${py(i)+3}" fill="#64748b" font-size="9">${i}</text>`;
+        }
+    }
+    // parabola path
+    let d = '';
+    for (let xi = -7.5; xi <= 7.5; xi += 0.1) {
+        const yi = a*xi*xi + b*xi + c;
+        const X = px(xi), Y = py(yi);
+        if (Y < -50 || Y > H+50) { d += ''; continue; }
+        d += (d === '' ? 'M' : 'L') + X.toFixed(1) + ' ' + Y.toFixed(1) + ' ';
+    }
+    const curve = `<path d="${d}" fill="none" stroke="#fbbf24" stroke-width="2.5"/>`;
+
+    // optional vertex marker
+    let extra = '';
+    if (opts.showVertex) {
+        const vx = -b/(2*a);
+        const vy = a*vx*vx + b*vx + c;
+        extra += `<circle cx="${px(vx)}" cy="${py(vy)}" r="4" fill="#ef4444"/>`;
+    }
+    if (opts.showRoots && b*b-4*a*c >= 0) {
+        const disc = Math.sqrt(b*b-4*a*c);
+        const r1 = (-b-disc)/(2*a), r2 = (-b+disc)/(2*a);
+        extra += `<circle cx="${px(r1)}" cy="${py(0)}" r="4" fill="#22d3ee"/>`;
+        extra += `<circle cx="${px(r2)}" cy="${py(0)}" r="4" fill="#22d3ee"/>`;
+    }
+
+    return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${grid}${axes}${ticks}${curve}${extra}</svg>`;
+}
+
+// ===== التمارين =====
+// لكل تمرين: a,b,c + أسئلة + حل. القطوع مختارة بحيث تكون القيم عددية نظيفة.
+const EX = [
+    {
+        a:1, b:0, c:-4,
+        title:'التمرين التأسيسي',
+        q:'الدالة <span class="math">f(x) = x² − 4</span>. من الرسم أجب:',
+        asks:[
+            'نقاط التقاطع مع محور x (الأصفار):',
+            'نقطة التقاطع مع محور y:',
+            'الرأس (القيمة القصوى/الدنيا):',
+            'مجال الصعود ومجال الهبوط:'
+        ],
+        sol:`الأصفار: <span class="m">x = 2 , x = −2</span> → النقاط (2,0) و(−2,0)<br>
+             تقاطع محور y: <span class="m">f(0) = −4</span> → النقطة (0,−4)<br>
+             الرأس: نقطة دنيا (<span class="m">a>0</span>) عند <span class="m">(0, −4)</span>، قيمة دنيا −4<br>
+             هبوط عند <span class="m">x < 0</span>، صعود عند <span class="m">x > 0</span>`
+    },
+    {
+        a:1, b:-2, c:-3,
+        title:'التقاطعات والرأس',
+        q:'الدالة <span class="math">f(x) = x² − 2x − 3</span>. من الرسم أجب:',
+        asks:[
+            'الأصفار (تقاطع محور x):',
+            'تقاطع محور y:',
+            'إحداثيات الرأس (استخدم <span class="math">x = −b/2a</span>):',
+            'مجالات الصعود والهبوط:'
+        ],
+        sol:`الأصفار: تحليل <span class="m">(x−3)(x+1)=0</span> → x = 3 , x = −1<br>
+             تقاطع y: <span class="m">f(0) = −3</span> → (0,−3)<br>
+             الرأس: <span class="m">x = 2/2 = 1</span> ، <span class="m">f(1) = 1−2−3 = −4</span> → (1,−4) نقطة دنيا<br>
+             هبوط عند <span class="m">x < 1</span>، صعود عند <span class="m">x > 1</span>`
+    },
+    {
+        a:-1, b:0, c:4,
+        title:'معامل a سالب',
+        q:'الدالة <span class="math">f(x) = −x² + 4</span>. من الرسم أجب:',
+        asks:[
+            'هل للرأس قيمة قصوى أم دنيا؟ ولماذا؟',
+            'إحداثيات الرأس:',
+            'الأصفار:',
+            'مجالات الصعود والهبوط:'
+        ],
+        sol:`بما أن <span class="m">a = −1 < 0</span> فإن القطع يفتح للأسفل → للرأس قيمة قصوى (<span class="heb" style="color:#38bdf8">מקסימום</span>)<br>
+             الرأس: <span class="m">x = 0</span> ، <span class="m">f(0) = 4</span> → (0, 4) قيمة قصوى 4<br>
+             الأصفار: <span class="m">−x²+4=0 → x = 2 , x = −2</span><br>
+             صعود عند <span class="m">x < 0</span>، هبوط عند <span class="m">x > 0</span>`
+    },
+    {
+        a:-1, b:2, c:3,
+        title:'قطع يفتح للأسفل',
+        q:'الدالة <span class="math">f(x) = −x² + 2x + 3</span>. من الرسم أجب:',
+        asks:[
+            'إحداثيات الرأس:',
+            'القيمة القصوى:',
+            'الأصفار:',
+            'مجالات الصعود والهبوط:'
+        ],
+        sol:`الرأس: <span class="m">x = −2/(2·−1) = 1</span> ، <span class="m">f(1) = −1+2+3 = 4</span> → (1, 4)<br>
+             القيمة القصوى = 4<br>
+             الأصفار: <span class="m">−(x²−2x−3)=−(x−3)(x+1)=0 → x=3 , x=−1</span><br>
+             صعود عند <span class="m">x < 1</span>، هبوط عند <span class="m">x > 1</span>`
+    },
+];
+
+// ===== تمارين تأثير a, b, c =====
+const EFFECT = {
+    title:'تأثير تغيير a و b و c',
+    q:'انطلاقًا من <span class="math">f(x) = x² + 2x − 3</span>، صِف كيف يتغيّر الرسم في كل حالة:',
+    asks:[
+        'إذا كبّرنا <span class="math">a</span> (مثلًا من 1 إلى 3): ماذا يحدث لشكل القطع؟',
+        'إذا جعلنا <span class="math">a</span> سالبًا (مثلًا −1): ماذا يحدث؟',
+        'إذا غيّرنا <span class="math">c</span> (مثلًا من −3 إلى +2): ماذا يتغيّر؟',
+        'إذا غيّرنا <span class="math">b</span>: ماذا يتغيّر؟'
+    ],
+    sol:`تكبير <span class="m">a</span>: القطع يصبح <strong>أضيق</strong> (تمدّد عمودي / <span class="heb" style="color:#38bdf8">מתיחה</span>). كلما كبر |a| ضاق القطع.<br>
+         <span class="m">a < 0</span>: ينقلب القطع ليفتح <strong>للأسفل</strong> (انعكاس حول محور x / <span class="heb" style="color:#38bdf8">שיקוף</span>)، ويتحوّل الرأس من دنيا إلى قصوى.<br>
+         تغيير <span class="m">c</span>: يُزيح القطع <strong>عموديًا</strong> (c هي نقطة تقاطع محور y). زيادة c ترفع القطع.<br>
+         تغيير <span class="m">b</span>: يُزيح <strong>موقع الرأس أفقيًا وعموديًا</strong> (لأن <span class="m">x_رأس = −b/2a</span>)، بينما يبقى تقاطع محور y ثابتًا عند c.`
+};
+
+// ===== عرض التمارين =====
+function render() {
+    const c = document.getElementById('content');
+    let html = '';
+    EX.forEach((ex, i) => {
+        const asksHtml = ex.asks.map(a => `<li>${a}</li>`).join('');
+        html += `
+        <div class="exercise">
+            <div class="ex-num">${i+1}</div>
+            <div class="ex-title">${ex.title}</div>
+            <div class="ex-q">${ex.q}</div>
+            <div class="graph-wrap">${drawParabola(ex.a, ex.b, ex.c, {showVertex:true, showRoots:true})}</div>
+            <ul>${asksHtml}</ul>
+            <details><summary>🔍 إظهار الحل</summary><div class="sol">${ex.sol}</div></details>
+        </div>`;
+    });
+
+    // effect section with 4 mini-graphs comparison
+    const comp = `
+        <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin:14px 0;">
+            <div style="text-align:center;">
+                <div style="color:#94a3b8; font-size:13px; margin-bottom:4px;">الأصل a=1</div>
+                ${drawParabolaSmall(1,2,-3,'#fbbf24')}
+            </div>
+            <div style="text-align:center;">
+                <div style="color:#94a3b8; font-size:13px; margin-bottom:4px;">a=3 (أضيق)</div>
+                ${drawParabolaSmall(3,2,-3,'#f472b6')}
+            </div>
+            <div style="text-align:center;">
+                <div style="color:#94a3b8; font-size:13px; margin-bottom:4px;">a=−1 (ينقلب)</div>
+                ${drawParabolaSmall(-1,2,-3,'#34d399')}
+            </div>
+            <div style="text-align:center;">
+                <div style="color:#94a3b8; font-size:13px; margin-bottom:4px;">c=+2 (يرتفع)</div>
+                ${drawParabolaSmall(1,2,2,'#60a5fa')}
+            </div>
+        </div>`;
+    const asksHtml = EFFECT.asks.map(a => `<li>${a}</li>`).join('');
+    html += `
+        <div class="exercise">
+            <div class="ex-num">${EX.length+1}</div>
+            <div class="ex-title">${EFFECT.title}</div>
+            <div class="ex-q">${EFFECT.q}</div>
+            ${comp}
+            <ul>${asksHtml}</ul>
+            <details><summary>🔍 إظهار الحل</summary><div class="sol">${EFFECT.sol}</div></details>
+        </div>`;
+
+    c.innerHTML = html;
+}
+
+function drawParabolaSmall(a,b,c,color){
+    const W=160,H=160,unit=11,cx=W/2,cy=H/2;
+    function px(x){return cx+x*unit;} function py(y){return cy-y*unit;}
+    let grid='';
+    grid+=`<line x1="0" y1="${cy}" x2="${W}" y2="${cy}" stroke="#94a3b8" stroke-width="1"/>`;
+    grid+=`<line x1="${cx}" y1="0" x2="${cx}" y2="${H}" stroke="#94a3b8" stroke-width="1"/>`;
+    let d='';
+    for(let xi=-7.5;xi<=7.5;xi+=0.1){
+        const yi=a*xi*xi+b*xi+c; const X=px(xi),Y=py(yi);
+        if(Y<-30||Y>H+30){continue;}
+        d+=(d===''?'M':'L')+X.toFixed(1)+' '+Y.toFixed(1)+' ';
+    }
+    return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="background:#0a1420;border:1px solid rgba(148,163,184,0.2);border-radius:8px;">${grid}<path d="${d}" fill="none" stroke="${color}" stroke-width="2"/></svg>`;
+}
+
+render();
+</script>
+</body>
+</html>
