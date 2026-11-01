@@ -68,8 +68,9 @@
         <ul>
             <li>التعرّف على الدالة الأساسية <span class="math">f(x) = x²</span> (القطع المكافئ / <span class="heb">פרבולה</span>) وخصائصها.</li>
             <li>ربط التغيير الجبري في التعبير بالتغيير في الرسم البياني (الـ <span class="heb">גרף</span>).</li>
-            <li>تحليل التحويلات الأربعة: الإزاحة (<span class="heb">הזזה</span>)، التمدّد (<span class="heb">מתיחה</span>)، والانعكاس (<span class="heb">שיקוף</span>).</li>
-            <li>استخدام GeoGebra لاستكشاف تأثير المعاملات a, b, c على القطع المكافئ.</li>
+            <li>تحليل التحويلات: الإزاحة (<span class="heb">הזזה</span>)، التمدّد (<span class="heb">מתיחה</span>)، والانعكاس (<span class="heb">שיקוף</span>).</li>
+            <li>ربط لغة التحويلات بالصيغة القياسية المعتمدة في الصف <span class="math">f(x)=ax²+bx+c</span> عبر فتح الأقواس.</li>
+            <li>استخدام GeoGebra لاستكشاف تأثير التحويلات على القطع المكافئ.</li>
         </ul>
     </div>
 
@@ -89,11 +90,12 @@
     <h2>🔗 روابط GeoGebra الجاهزة</h2>
     <div class="box">
         <p>يُنصح باستخدام أداة الشرائح (<span class="heb">סליידרים</span>) التفاعلية:</p>
+        <div class="tip" style="margin-bottom:12px;">
+            📌 ملاحظة للمعلّم: في الصف العاشر (4 وحدات) الصيغة المعتمدة هي <span class="math">f(x)=ax²+bx+c</span>.
+            نستخدم لغة التحويلات (<span class="math">f(x)+k , f(x−p) , a·f(x)</span>) <strong>كأداة لفهم</strong> كيف يتكوّن القطع المكافئ،
+            ثم نربطها بالصيغة القياسية عبر فتح الأقواس.
+        </div>
         <ul>
-            <li>
-                <strong>الصيغة العامة للرأس (vertex form)</strong> <span class="math">f(x) = a(x − h)² + k</span> مع شرائح a, h, k:<br>
-                <a class="ggb-link" href="https://www.geogebra.org/m/WwaynXpf" target="_blank">🔗 Quadratic Functions (Transformations and Roots)</a>
-            </li>
             <li>
                 <strong>تحويلات الدوال التربيعية</strong> (إزاحة، تمدّد، انعكاس):<br>
                 <a class="ggb-link" href="https://www.geogebra.org/m/f7naKJ3m" target="_blank">🔗 Transformations of Quadratic Functions</a>
@@ -105,7 +107,7 @@
             <li>
                 <strong>إنشاء ذاتي (موصى به):</strong> افتح
                 <a class="ggb-link" href="https://www.geogebra.org/graphing" target="_blank">🔗 GeoGebra Graphing Calculator</a>
-                واكتب: <span class="math">f(x)=x^2</span> ثم <span class="math">g(x)=a*(x-h)^2+k</span> وأنشئ شرائح لـ a, h, k.
+                واكتب: <span class="math">f(x)=x^2</span>، ثم جرّب <span class="math">f(x)+k</span>، <span class="math">(x-p)^2</span>، <span class="math">a*x^2</span> بشرائح لـ a, p, k.
             </li>
         </ul>
         <div class="tip">
@@ -143,8 +145,8 @@
         </tr>
         <tr>
             <td class="time-col">75–85 د</td>
-            <td><strong>تلخيص ونقاش (סיכום):</strong> جدول تلخيصي لكل تحويل. مناقشة: "كيف أحوّل <span class="math">x²</span> إلى <span class="math">(x−3)²+2</span> خطوة بخطوة؟"</td>
-            <td>تثبيت القاعدة العامة وربط التحويلات.</td>
+            <td><strong>الربط بالصيغة القياسية (קישור ל-ax²+bx+c):</strong> نفتح أقواس <span class="math">(x−3)²+2</span> ونحصل على <span class="math">x²−6x+11</span>. نوضّح أن كل تحويل يؤدي إلى الصيغة المعتمدة <span class="math">ax²+bx+c</span>. تلخيص بجدول التحويلات.</td>
+            <td>ربط لغة التحويلات بالصيغة التي يتعلّمها الطلاب.</td>
         </tr>
         <tr>
             <td class="time-col">85–90 د</td>
@@ -191,21 +193,21 @@
     <h3>الجزء الثاني: تقنيات جبرية (טכניקות אלגבריות)</h3>
     <div class="box">
         <ol>
-            <li>حوّل إلى صيغة الرأس بإكمال المربّع (<span class="heb">השלמה לריבוע</span>):
+            <li>افتح الأقواس واكتب بالصيغة القياسية <span class="math">ax²+bx+c</span>:
                 <ul>
-                    <li><span class="math">f(x) = x² + 6x + 5</span></li>
-                    <li><span class="math">f(x) = x² − 4x + 1</span></li>
+                    <li><span class="math">f(x) = (x − 3)² + 2</span></li>
+                    <li><span class="math">f(x) = −(x + 1)² − 5</span></li>
                 </ul>
             </li>
-            <li>جد نقاط تقاطع القطع <span class="math">f(x) = x² − 5x + 6</span> مع محور x (الأصفار / <span class="heb">אפסים</span>).</li>
-            <li>جد نقطة تقاطع القطع مع محور y.</li>
+            <li>جد نقاط تقاطع القطع <span class="math">f(x) = x² − 5x + 6</span> مع محور x (الأصفار / <span class="heb">אפסים</span>) بالتحليل إلى عوامل.</li>
+            <li>جد نقطة تقاطع القطع مع محور y، وجد إحداثي الرأس باستخدام <span class="math">x = −b/2a</span>.</li>
         </ol>
     </div>
 
     <h3>الجزء الثالث: تحدٍّ (للمتقدّمين)</h3>
     <div class="box">
         <ol>
-            <li>قطع مكافئ رأسه <span class="math">(2, −3)</span> ويمرّ بالنقطة <span class="math">(0, 1)</span>. جد معادلته بصيغة <span class="math">a(x−p)²+k</span>.</li>
+            <li>قطع مكافئ ناتج عن إزاحة <span class="math">x²</span> إلى الرأس <span class="math">(2, −3)</span> ويمرّ بالنقطة <span class="math">(0, 1)</span>. جد معادلته ثم اكتبها بالصيغة القياسية <span class="math">ax²+bx+c</span>.</li>
             <li>في GeoGebra: ابنِ القطعين <span class="math">f(x)=x²</span> و <span class="math">g(x)=(x−4)²</span>. ما إحداثيات نقطة تقاطعهما؟ تحقّق جبريًا.</li>
         </ol>
     </div>
@@ -214,9 +216,9 @@
     <div class="tip">
         <strong>الجزء 1.1:</strong> (0,3),x=0 · (2,0),x=2 · (−1,−4),x=−1<br>
         <strong>الجزء 1.2:</strong> إزاحة يمين 3 + أعلى 2 · تمدّد ×2 + انعكاس حول x · انعكاس + يسار 1 + أسفل 5<br>
-        <strong>الجزء 2.1:</strong> (x+3)²−4 · (x−2)²−3<br>
-        <strong>الجزء 2.2:</strong> الأصفار x=2, x=3 · <strong>2.3:</strong> تقاطع محور y عند (0,6)<br>
-        <strong>الجزء 3.1:</strong> a=1 → <span class="math">f(x)=(x−2)²−3</span> (تحقّق: f(0)=4−3=1 ✓)<br>
+        <strong>الجزء 2.1:</strong> x²−6x+11 · −x²−2x−6<br>
+        <strong>الجزء 2.2:</strong> الأصفار x=2, x=3 · <strong>2.3:</strong> تقاطع محور y عند (0,6)، الرأس عند x=5/2<br>
+        <strong>الجزء 3.1:</strong> a=1 → <span class="math">(x−2)²−3 = x²−4x+1</span> (تحقّق: f(0)=1 ✓)<br>
         <strong>الجزء 3.2:</strong> x²=(x−4)² → x=2، النقطة (2,4)
     </div>
 
